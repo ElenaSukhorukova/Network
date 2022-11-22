@@ -3,4 +3,7 @@ class Interest < ApplicationRecord
   
   has_many :account_interest
   has_many :account, through: :account_interest
+
+  has_many :group_interest
+  has_many :groups, through: :group_interest 
 end
