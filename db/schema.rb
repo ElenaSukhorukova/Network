@@ -15,8 +15,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_20_121943) do
   enable_extension "plpgsql"
 
   create_table "account_interests", force: :cascade do |t|
+    t.bigint "account_id"
+    t.bigint "interest_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_account_interests_on_account_id"
+    t.index ["interest_id"], name: "index_account_interests_on_interest_id"
   end
 
   create_table "accounts", force: :cascade do |t|
@@ -24,8 +28,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_20_121943) do
     t.string "gender"
     t.date "date_birthday"
     t.text "about_oneself"
-    t.string "nationality"
-    t.string "location"
+    t.string "country"
     t.string "visibility"
     t.string "state"
     t.datetime "created_at", null: false

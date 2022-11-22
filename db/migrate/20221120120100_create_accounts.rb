@@ -5,8 +5,7 @@ class CreateAccounts < ActiveRecord::Migration[7.0]
       t.string :gender
       t.date :date_birthday
       t.text :about_oneself
-      t.string :nationality
-      t.string :location
+      t.string :country
       t.string :visibility
       t.string :state
 
