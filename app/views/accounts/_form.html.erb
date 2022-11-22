@@ -1,0 +1,23 @@
+<div class="row">
+	<div class="col-xs-12 col-sm-6 col-md-8">
+		<%= simple_form_for model, url: url, method: method, id: id do |f| %>
+      <%= f.file_field :avatar, class:"form-control", id: "formFile" %><br />
+			<%= f.input :first_name %><br />
+			<%= f.input :last_name %><br />
+			<%= f.label :gender %><br />
+			<%  Account::VALID_GENDERS.each do |item| %>
+	  		<%= f.radio_button :gender, item , class: ' input-validation-error' %> <%= item %>
+	  	<% end %><br /><br />
+      <%= f.label :date_birthday %>
+      <%= f.date_field :date_birthday, class: "form-control" %><br />
+			<%= f.input :description %><br />
+			<%#= f.label :location %>
+			<%#= f.select :location, @contries.collect { |country| [ country.name ] }, { include_blank: true }, { class: "form-select", :'aria-label' => "Default select example" } %><br />				
+      <%#= f.label :nationality %>
+			<%#= f.select :nationality, @nationalities.collect { |nationality| [ nationality.name ] }, { include_blank: true }, { class: "form-select", :'aria-label' => "Default select example" } %><br />
+				<%#= f.input :interests %><br />
+        <%= f.input :country, collection: CountryStateSelect.countries_collection %>
+				<%= f.button :submit, class: "btn btn-light" %>			
+		<% end %>		
+	</div>
+</div>
