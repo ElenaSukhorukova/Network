@@ -1,9 +1,11 @@
 class Account < ApplicationRecord
   include Visibility
+  include Country
+
   VALID_GENDERS = ['Female', 'Male', 'Other']
   STATE = ['online', 'ofline']
 
-  validates :user_name, presence: true, length: { within: 5..50 }
+  validates :user_name, presence: true, length: { within: 2..50 }
   validates :gender, inclusion: { in: VALID_GENDERS }
   validates :date_birthday, format: { with: /\d{4}\-\d{2}\-\d{2}/,
     message: "a format of date is allowed only xx.xx.xxxx" }
