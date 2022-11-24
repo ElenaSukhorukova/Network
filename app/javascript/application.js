@@ -2,3 +2,4 @@
 import "@hotwired/turbo-rails"
 import "controllers"
 //= require country_state_select
+import 'bootstrap'
