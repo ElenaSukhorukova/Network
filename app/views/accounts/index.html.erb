@@ -1,0 +1,21 @@
+<% if @account.present? %>
+  <% if @accounts.try(:any?) %>
+    <% @accounts.each do |account| %>
+      <%#= link_to(account_path(account)) do %>
+                <%# if account.avatar.attached? %>
+                  <%#= image_tag account.avatar, width: '50px', class: "rounded mx-auto d-block" %>
+                <%# else %>
+                  <%#= image_tag "blank_pictures/blank_avatar.png", width: '50px', class: "rounded mx-auto d-block" %>
+                <%# end %>
+              <%# end %>
+
+      <%= link_to "#{account.user_name}", account_path(account), class: 'text-dark text-decoration-none' %>
+    <% end %>
+  <% else %>
+    <p>
+      <%= t('page.account.index') %>
+    </p>
+  <% end %>
+<% else %>
+  <%= t('page.account.blank_account') %>
+<% end %>

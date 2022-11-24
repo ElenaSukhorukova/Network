@@ -1,0 +1,6 @@
+<h3><%= t('page.new', model: i18n_model_name(@account).downcase) %></h3>
+
+<p><%= t('page.account.empty_profile') %></p>
+
+<%= render partial: 'form',  locals: { account: @account, method: :post, 
+  url: user_account_path(@user), submit: t('submit.create', model: i18n_model_name(@account).downcase) } %>
