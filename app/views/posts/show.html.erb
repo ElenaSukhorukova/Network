@@ -1,0 +1,18 @@
+<%= @post.body %>
+<%= link_to @post.author_post.user_name, account_path(@post.author_post) %>
+
+<% if @comments.try(:any?) %>
+	<h4><%= i18n_model_name(@comments) %></h4>
+
+    <div class="grid text-center" style="--bs-columns: 18; --bs-gap: .5rem;">
+      <div class="g-col-4">
+        <span style='font-size: 75%; color: #999'>Comments are <%= @comments.count %></span>
+      </div>
+    </div>
+    <% @comments.each do |comment| %>
+      <%= comment.body %>
+      <%= link_to comment.author_comment.user_name, account_path(comment.author_comment) %>
+    <% end %>
+<% end %>  
+<%= render partial: "comments/form", locals: { comment: @comment, method: :post,
+  url: post_comments_path(@post), submit: t('submit.create', model: i18n_model_name(@post).downcase) } %>
