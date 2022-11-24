@@ -1,0 +1,16 @@
+<nav>
+  <%= link_to i18n_model_name(Post.new).pluralize, posts_path, class: "me-3 py-2 text-dark text-decoration-none" %>
+  
+  <% if user_signed_in? && current_user.account.try(:present?) %>
+    <%= link_to i18n_model_name(Account.new), account_path(current_user), class: "me-3 py-2 text-dark text-decoration-none" %>
+    <%= link_to i18n_model_name(Friendship.new).pluralize, account_friendships_path(current_user.account), 
+      class: "me-3 py-2 text-dark text-decoration-none" %>
+    <%= link_to i18n_model_name(Conversation.new).pluralize, account_conversations_path(current_user.account), 
+      class: "me-3 py-2 text-dark text-decoration-none" %>
+    <%= link_to i18n_model_name(Group.new).pluralize, account_groups_path(current_user.account), 
+      class: "me-3 py-2 text-dark text-decoration-none" %>
+  <% elsif user_signed_in? %>
+    <%= link_to t('link.add_new', model: i18n_model_name(Account.new).downcase), new_user_account_path(current_user), 
+      class: "me-3 py-2 text-dark text-decoration-none" %>
+  <% end %>
+</nav>

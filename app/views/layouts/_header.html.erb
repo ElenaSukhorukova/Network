@@ -1,0 +1,12 @@
+<header>
+  <%= link_to t("navbar.about_us"), about_path, class: "me-3 py-2 text-dark text-decoration-none" %>
+  <%= link_to t("navbar.rules"), rules_path, class: "me-3 py-2 text-dark text-decoration-none" %>
+  <%= link_to t("navbar.contacts"), contacts_path, class: "me-3 py-2 text-dark text-decoration-none" %>
+  <% if user_signed_in? %>
+    <%= link_to t("navbar.sign_out"), sign_out_path, 'data- turbo_method': :delete, 
+      :onclick => "return confirm('Are you sure?')", :remote => true, class: "me-3 py-2 text-dark text-decoration-none" %>
+  <% else %>
+    <%= link_to t("navbar.sign_in"), sign_in_path, :class => "me-3 py-2 text-dark text-decoration-none" %>
+    <%= link_to t("navbar.sign_up"), sign_up_path, :class => "me-3 py-2 text-dark text-decoration-none" %>
+  <% end %>
+</header>
