@@ -1,0 +1,29 @@
+ <section>
+  <h1 class='md-4'><%= i18n_model_name(@conversations, count: 2) %></h1>
+
+  <% if @conversations.try(:any?) %>
+    <div class='row row-cols-2'>
+      <section class='col-3 card'>
+        <%= render partial: 'conversation', collection: @conversations %>
+      </section>
+      <section class='col-9'>
+        <% if @conversation.present? %> 
+          <h3 class='md-4'>
+            <%= t('page.message.chat') %>
+            <%= link_to interlocutor(@conversation).user_name, 
+              account_path(interlocutor(@conversation)), class: 'link mx-2' %>
+          </h3>
+          <% if @messages.try(:any?) %>
+            <%= render partial: 'accounts/messages/message', collection: @messages %>
+          <% end %>
+          <section class='container mt-5' style='align-items:center'>
+          <%= render partial: "accounts/messages/form", locals: { message: @message, url: conversation_messages_path(@conversation), 
+            method: :post, submit: t('submit.send', model: i18n_model_name(@message).downcase) } %>
+            </section>
+        <% end %>
+      </section>
+    </div>
+  <%else %>
+    <%= render 'accounts/conversations/empty_state' %> 
+  <% end %>
+</section>
