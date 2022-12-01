@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_24_164321) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_01_110615) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,7 +58,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_164321) do
   end
 
   create_table "friendships", force: :cascade do |t|
-    t.boolean "confirmed", default: false
     t.bigint "f_partner_friendship_id"
     t.bigint "s_partner_friendship_id"
     t.datetime "created_at", null: false
@@ -93,6 +92,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_164321) do
     t.string "visibility"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "group_creator_id"
+    t.index ["group_creator_id"], name: "index_groups_on_group_creator_id"
   end
 
   create_table "interests", force: :cascade do |t|
@@ -106,6 +107,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_164321) do
     t.bigint "receiver_invite_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "confirmed", default: "not"
     t.index ["receiver_invite_id"], name: "index_invites_on_receiver_invite_id"
     t.index ["sender_invite_id"], name: "index_invites_on_sender_invite_id"
   end
@@ -150,6 +152,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_24_164321) do
   add_foreign_key "friendships", "accounts", column: "f_partner_friendship_id"
   add_foreign_key "friendships", "accounts", column: "s_partner_friendship_id"
   add_foreign_key "friendships", "invites"
+  add_foreign_key "groups", "accounts", column: "group_creator_id"
   add_foreign_key "invites", "accounts", column: "receiver_invite_id"
   add_foreign_key "invites", "accounts", column: "sender_invite_id"
   add_foreign_key "messages", "accounts", column: "recipient_message_id"
