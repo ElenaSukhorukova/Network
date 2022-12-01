@@ -1,0 +1,7 @@
+<section class='post'>
+  <%= turbo_frame_tag dom_id(@post) do %>
+    <h4 class='md-4'><%= t('page.edit', model: i18n_model_name(@post)) %></h4>
+    <%= render partial: 'posts/form', locals: { post: @post, method: :put, url: account_post_path(@post), submit: t('submit.edit', 
+      model: i18n_model_name(@post).downcase), place: @post.place, path: account_path(@account) } %>
+  <% end %>
+</section>

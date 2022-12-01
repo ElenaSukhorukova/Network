@@ -1,18 +1,37 @@
-<%= @post.body %>
-<%= link_to @post.author_post.user_name, account_path(@post.author_post) %>
+<section class='my-4'>
+  <p>
+  <%= link_to @post.author_post.user_name, account_path(@post.author_post), class: 'link' %>
+  <span class='style-date'>
+    <time datetime="<%= @post.formatted_created_at %>">
+      <%= @post.formatted_created_at %>
+    </time>
+  <span>
+</p>
+  <%= @post.body %>
+</section>
 
-<% if @comments.try(:any?) %>
-	<h4><%= i18n_model_name(@comments) %></h4>
-
-    <div class="grid text-center" style="--bs-columns: 18; --bs-gap: .5rem;">
-      <div class="g-col-4">
-        <span style='font-size: 75%; color: #999'>Comments are <%= @comments.count %></span>
-      </div>
+<% if user_signed_in? && current_user.account.try(:present?) %> 
+  <% if user_signed_in? && @post.author_post == current_user.account %>
+    <div class="btn-group mt-2" role="group">
+      <%= link_to t('link.edit', model: i18n_model_name(@post).downcase), 
+        edit_post_path(@post), class: "btn btn-outline-dark me-2" %>
+      <%= button_to t('submit.delete', model: i18n_model_name(@post).downcase), post_path(@post), 
+        method: :delete, class: "btn btn-outline-dark me-2", :onclick => "return confirm('Are you sure?')", :remote => true %>
     </div>
-    <% @comments.each do |comment| %>
-      <%= comment.body %>
-      <%= link_to comment.author_comment.user_name, account_path(comment.author_comment) %>
+  <% end %>
+  <section class='my-3'>
+    <% if @comments.try(:any?) %>
+      <h3 class='md-4'><%= i18n_model_name(@comments, count: 2) %></h3>
+      <div class="grid text-center" style="--bs-columns: 18; --bs-gap: .5rem;">
+        <div class="g-col-4">
+          <span style='font-size: 75%; color: #999'>Comments are <%= @comments.count %></span>
+        </div>
+      </div>
+      <%= render partial: 'comments/comment', collection: @comments %>
     <% end %>
-<% end %>  
-<%= render partial: "comments/form", locals: { comment: @comment, method: :post,
-  url: post_comments_path(@post), submit: t('submit.create', model: i18n_model_name(@post).downcase) } %>
+  </section>
+  <div class='col-8'>
+    <%= render partial: "comments/form", locals: { comment: [@post, Comment.new], method: :post,
+      url: post_comments_path(@post), submit: t('submit.create', model: i18n_model_name(@comments).downcase) } %>
+  </div>
+<% end %>

@@ -1,9 +1,8 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-6 col-md-8">
-		<%= simple_form_for post, url: url, method: method do |f| %>
-			<%= f.input :body %><br />
-			<%= f.input :place, :as => :hidden, input_html: { value: place || f.object.place } %><br />     
-			<%= f.button :submit, submit, class: "btn btn-light" %>			
-		<% end %>		
-	</div>
+<div class='col-8'>
+	<%= simple_form_for post, url: url, method: method do |f| %>
+		<%= f.input :body %><br />
+		<%= f.input :place, :as => :hidden, input_html: { value: place || f.object.place } %><br />     
+		<%= f.button :submit, submit, class: "btn btn-outline-dark" %>			
+		<%= render partial: 'shared/cancel_button', locals: { path: path } if f.object.persisted? %>	
+	<% end %>
 </div>

@@ -1,5 +1,7 @@
-<h3><%= t('page.new', model: i18n_model_name(@post).downcase) %></h3>
+<section>
+  <%= render partial: 'shared/go_back_button', locals: { path: account_path(@account) } %>
+  <h1 class='md-4'><%= t('page.new', model: i18n_model_name(@post).downcase) %></h1>
 
-<%= render partial: 'form',  locals: { post: @post, method: :post, 
-  url: account_posts_path(@account), submit: t('submit.create', model: i18n_model_name(@post).downcase), place: 'content' } %>
-  
+  <%= render partial: 'form',  locals: { post: @post, method: :post, url: account_posts_path(@account), 
+    submit: t('submit.create', model: i18n_model_name(@post).downcase), place: 'content' } %>
+</section>

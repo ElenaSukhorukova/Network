@@ -1,0 +1,9 @@
+<section>
+  <%= turbo_frame_tag dom_id(@post) do %>
+    <%= render partial: 'shared/go_back_button', locals: { path: account_path(@account) } %>
+    <h4 class='md-4'><%= t('page.new', model: i18n_model_name(@post).downcase) %></h4>
+
+    <%= render partial: 'posts/form',  locals: { post: @post, method: :post, url: account_posts_path(@account), 
+      submit: t('submit.create', model: i18n_model_name(@post).downcase), place: 'content' } %>
+  <% end %>
+</section>

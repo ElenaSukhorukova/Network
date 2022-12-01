@@ -1,18 +1,11 @@
-<h1><%= i18n_model_name(@posts).pluralize %></h1>
-<%= link_to t('link.add_new', model: i18n_model_name(Post.new).downcase), new_account_post_path(@account) if current_user.account %>
-<% if @posts.try(:any?) %>
-  <% @posts.each do |post| %>
-    <%= post.body %>
-    <%= link_to post.author_post.user_name, account_path(post.author_post) %>
-    <% if user_signed_in? && current_user.account.try(:present?) %> 
-      <%= link_to t('link.show', model: i18n_model_name(post).downcase), post_path(post) %>
-        <% if post.author_post == @account %>
-          <%= link_to t('link.edit', model: i18n_model_name(post).downcase), edit_post_path(post) %>
-          <%= button_to t('submit.delete', model: i18n_model_name(post).downcase), post_path(post), 
-            method: :delete, class: "btn btn-light", :onclick => "return confirm('Are you sure?')", :remote => true %>
-        <% end %>
-    <% end %>
+<section class='post'>
+  <h1 class='md-4'><%= i18n_model_name(@posts, count: 2) %></h1>
+  <%= link_to t('link.add_new', model: i18n_model_name(Post.new).downcase), new_account_post_path(@account), 
+    class: "btn btn-outline-dark my-4" if current_user && current_user.account %>
+
+  <% if @posts.try(:any?) %>
+    <%= render partial: "posts/post", collection: @posts %>
+  <% else %>
+    <p><%= t('page.account.index') %></p>
   <% end %>
-<% else %>
-  <p><%= t('page.account.index') %></p>
-<% end %>
+</section>

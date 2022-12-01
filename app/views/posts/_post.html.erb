@@ -1,0 +1,16 @@
+<p>
+  <%= link_to post.author_post.user_name, account_path(post.author_post), class: 'link' %>
+  <span class='style-date'>
+    <time datetime="<%= post.formatted_created_at %>">
+      <%= post.formatted_created_at %>
+    </time>
+  <span>
+</p>
+<p>
+  <%= simple_format(post.body) %>
+</p>
+
+<%= link_to t('link.show', model: i18n_model_name(post).downcase), 
+  post_path(post), class: "btn btn-outline-dark me-2" %>
+
+<p class='line'></p>
