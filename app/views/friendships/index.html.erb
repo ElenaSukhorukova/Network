@@ -1,0 +1,70 @@
+<section class='row'>
+  <section class='col-4 card mx-2'>
+    <div class='card-body'>
+      <h1 class='md-4 card-title'><%= i18n_model_name(Friendship.new, count: 2) %></h1>
+      <% if @friends.try(:any?) %>
+        <% @friends.each do |friend| %>
+          <p class='card-text'>
+            <%= link_to find_friend(friend).user_name, 
+              account_path(find_friend(friend)), class: 'link' %>
+          </p>
+        <% end %>
+      <% else %>
+        <%= render 'empty_state' %>
+      <% end %>
+    </div>
+  </section>
+  <section class='col-5 mx-2 card'>
+    <div class='card-body'>
+      <h3 class='md-4 card-title'><%= link_to i18n_model_name(Invite.new, count: 2),  
+        invites_page_path, class: "btn btn-outline-dark mx-2", role: 'button'  %></h3>
+      <p class='card-text'>
+        <% if @invites_sender.try(:any?) %>
+          <%= t('page.invite.your_invite.you_are_sender') %>
+          <% @invites_sender.each do |invite| %>
+            <div class="btn-group mt-2" role="group">
+              <%= link_to Account.find_by(id: invite.receiver_invite_id).user_name, 
+              account_path(invite.receiver_invite_id), class: 'link mx-2' %>
+
+              <% if invite.confirmed == 'not' %>
+                <%= simple_form_for invite, url: invite_path(invite), method: :put do |f| %>
+                  <%= f.input :confirmed, as: :hidden, input_html: { value: 'canceled'} %>
+                  <%= f.button :submit, t('page.invite.cancel'), class: "btn btn-outline-dark mx-2" %>
+                <% end %>
+              <% else %>
+                <%= t('page.invite.users_invite.canceled') %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+        <% if @invites_receiver.try(:any?) %>
+          <%= t('page.invite.user_invite.sender') %>
+          <% @invites_receiver.each do |invite| %>
+            <div class="btn-group mt-2" role="group">
+              <%= link_to Account.find_by(id: invite.sender_invite_id).user_name, 
+              account_path(invite.sender_invite_id), class: 'link mx-2' %>
+
+              <%= button_to t('page.users_invite.accept'), invite_friendships_path(invite), method: :post, 
+                  class: "btn btn-outline-dark mx-2", role: 'button' %>
+
+              <% if invite.confirmed == 'not' %>
+                <%= simple_form_for invite, url: invite_path(invite), method: :put do |f| %>
+                  <%= f.input :confirmed, as: :hidden, input_html: { value: 'canceled'} %>
+                  <%= f.button :submit, t('page.invite.cancel'), class: "btn btn-outline-dark mx-2" %>
+                <% end %>
+              <% else %>
+                <%= t('page.invite.users_invite.canceled') %>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </p>
+    </div>
+  </section>
+</section>
+<section class='row mt-4'>
+  <h3 class='md-2'><%= t('page.friendship.accounts') %></h3>
+  <% if @accounts.any? %>
+    <%= render partial: 'accounts/account', collection: @accounts %>
+  <% end %>
+</section>
