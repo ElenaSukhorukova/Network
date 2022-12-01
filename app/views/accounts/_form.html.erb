@@ -1,23 +1,29 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-6 col-md-8">
-		<%= simple_form_for account, url: url, method: method do |f| %>
-      <%#= f.file_field :avatar, class:"form-control", id: "formFile" %><br />
-			<%= f.input :user_name %><br />
-			<%= f.label :gender %><br />
-			<% Account::VALID_GENDERS.each do |item| %>
-	  		<%= f.radio_button :gender, item , class: ' input-validation-error' %> <%= item %>
-	  	<% end %><br /><br />
-      <%= f.label :date_birthday %>
-      <%= f.date_field :date_birthday, class: "form-control" %><br />
-			<%= f.label :contry %>
-			<%= f.select :country, Account::VALID_COUNTRY.collect { |country| [ country] }, { include_blank: true }, 
-				{ class: "form-select", :'aria-label' => "Default select example" } %><br />
-			<%= f.input :about_oneself %><br />
-			<%= f.label :visibility %><br />
-			<% Account::VALID_VISIBILITY.each do |item| %>
-	  		<%= f.radio_button :visibility, item , class: ' input-validation-error' %> <%= item %>
-	  	<% end %><br /><br />
-			<%= f.button :submit, submit, class: "btn btn-light" %>			
-		<% end %>		
-	</div>
+<div class='col-8'>
+	<%= simple_form_for account, url: url, method: method do |f| %>
+    <%#= f.file_field :avatar, class:"form-control", id: "formFile", input_html: { class: 'my-3'} %>
+		<%= f.input :user_name, input_html: { class: 'my-3'} %>
+				<div class='my-3'>
+		<%= f.input :gender, as: :radio_buttons, collection: Account::VALID_GENDERS, 
+			item_wrapper_class: 'inline' %>
+			</div>
+		<%= f.input :date_birthday, as: :date, start_year: Date.today.year - 120,
+                              end_year: Date.today.year - 12,
+															input_html: { class: 'my-3'} %>
+
+		<%= f.input :country, as: :select, collection: Account::VALID_COUNTRY, 
+			input_html: { class: 'my-3' } %>
+		<%= f.input :about_oneself, input_html: { class: 'my-3' } %>
+		<div class='my-3'>
+			<%= f.input :visibility, as: :radio_buttons, collection: Account::VALID_VISIBILITY, 
+				item_wrapper_class: 'inline' %>
+		</div>
+			
+			<p class='my-3'><%= i18n_model_name(Interest.new, count: 2) %></p>
+
+			<%= f.simple_fields_for :interests do |interest_form| %>
+       	<%= interest_form.input :name_interest %>
+			<% end %>
+		<%= f.button :submit, submit, class: "btn btn-outline-dark my-3" %>			
+		<%= render partial: 'shared/cancel_button', locals: { path: account_path(account) } if f.object.persisted? %>
+	<% end %>		
 </div>
