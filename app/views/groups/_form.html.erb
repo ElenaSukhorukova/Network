@@ -1,0 +1,17 @@
+<div class='col-8'>
+	<%= simple_form_for group, url: url, method: method do |f| %>
+    <%#= f.file_field :avatar, class:"form-control", id: "formFile", input_html: { class: 'my-3'} %>
+		<%= f.input :name_grou, input_html: { class: 'my-3'} %>
+		<%= f.input :description, input_html: { class: 'my-3' } %>
+		<div class='my-3'>
+			<%= f.input :description, as: :radio_buttons, collection: Group::VALID_VISIBILITY, 
+				item_wrapper_class: 'inline' %>
+		</div>		
+			<p class='my-3'><%= i18n_model_name(Interest.new, count: 2) %></p>
+			<%= f.simple_fields_for :interests do |interest_form| %>
+       	<%= interest_form.input :name_interest %>
+			<% end %>
+		<%= f.button :submit, submit, class: "btn btn-outline-dark my-3" %>			
+		<%= render partial: 'shared/cancel_button', locals: { path: group_path(f.object) } if f.object.persisted? %>
+	<% end %>		
+</div>

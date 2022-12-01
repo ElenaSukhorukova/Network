@@ -1,0 +1,7 @@
+<section>
+  <%= render partial: 'shared/go_back_button', locals: { path: root_path } %>
+  <h1 class='md-4'><%= t('page.new', model: i18n_model_name(@group).downcase) %></h1>
+
+  <%= render partial: 'form',  locals: { group: @group, method: :post, url: account_groups_path(@account), 
+    submit: t('submit.create', model: i18n_model_name(@group).downcase) } %>
+</section>
