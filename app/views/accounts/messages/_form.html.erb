@@ -1,0 +1,5 @@
+<%= simple_form_for message, url: url, method: method do |f| %>
+  <%= f.input :body, label: false, placeholder: attribute_model(message, :body) %>
+  <%= f.button :submit, class: "btn btn-outline-dark mt-2" %>
+  <%= render partial: 'shared/cancel_button', locals: { path: path } if f.object.persisted? %>
+<% end %>
