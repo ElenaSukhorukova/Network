@@ -14,25 +14,37 @@ Rails.application.routes.draw do
   root to: "posts#index"
   resources :posts, only: %i[index]
 
+  scope module: :accounts do
+    resources :accounts, except: %i[index show new create edit update destroy] do
+      resources :messages, only: %i[new create]
+      resources :conversations, only: %i[index show destroy]
+      resources :posts
+      resources :interests
+      resources :invites, only: %i[create update]
+    end
+  end
+
+  scope module: :conversations do
+    resources :conversations, shallow: true, except: %i[index show new create edit update destroy] do
+      resources :messages, only: %i[create edit update destroy]
+    end
+  end
+
   shallow do 
     resources :users do 
       resource :account
     end
-    resources :accounts do
-      resources :posts
-      resources :conversations
-      resources :friendships
+    resources :accounts do   
+      resources :friendships, only: %i[index]
       resources :groups
-      resources :invites, only: %i[create destroy]
+    end
+    resources :invites, except: %i[index show new create edit destroy] do 
+      resources :friendships, except: %i[index new show update destroy edit]
     end
     resources :posts do
-      resources :comments
-    end
-    resources :friendships do 
-      resource :invite
-    end
-    resources :conversation do 
-      resources :messages
+      resources :comments, except: %i[show index]
     end
   end
+
+  get 'friendships/invites', to: 'friendships#invites', as: 'invites_page'
 end
