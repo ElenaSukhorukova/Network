@@ -7,6 +7,27 @@ en:
       post:
         one: "Post"
         other: "Posts"
+      comment:
+        one: 'Comment'
+        other: 'Comments'
+      message:
+        one: 'Message'
+        other: 'Messages'
+      conversation:
+        one: 'Conversation'
+        other: 'Conversations'
+      friendship:
+        one: 'Friend'
+        other: 'Friends'
+      group:
+        one: 'Group'
+        other: 'Groups'
+      interest: 
+        one: 'Interest'
+        other: 'Interests'
+      invite: 
+        one: 'Invite'
+        other: 'Invites'
     attributes:
       user:
         confirmation_sent_at: 'Confirmation sent at'
@@ -43,17 +64,30 @@ en:
       post:
         body: 'Post'
         author_post: 'Author of the post'
+      comment:
+        body: 'Comment'
+        author_post: 'Author of the comment'
+      message:
+        body: 'Message'
+        author: 'Author: '
+      interest: 
+        name_interest: 'Interest'
   submit:
     create: "Create a new %{model}"
     edit: "Edit the %{model}"
     cancel: 'Cancel'
     go_back: "&larr; Go back"
     delete: "Destroy the %{model}"
+    simple_edit: 'Edit'
+    simple_delete: 'Delete'
+    send: "Send a %{model}"
   link:
     add_new: "Add a new %{model}"
     edit: "Edit the %{model}"
     show: "Show the %{model}"
     fill_account: 'Fill account'
+    message: 'Send a message'
+    new_chat: "Create a chat with anyone"
   navbar:
     sign_in: 'Sign in'
     sign_up: 'Sign up'
@@ -61,18 +95,46 @@ en:
     abot: "About us"
     rules: "Our rules"
     conacts: "Our contacts"
+    profile: "Profile %{user}"
   page:
+    site_name: 'Network'
     edit: "Edit the %{model}"
     new: "Add a new %{model}"
+    entrance: 'Enter your profile'
+    telegram: "&#9990; @elenkasu"
     account:
       blank_account: "You don't have a filled account. Please, fill your account to see accounts other users."
       empty_profile: "Your account is empty. Please, fill it"
       index: 'You are the first who have made registration on our Social network. Please, invite your friends to chat with them here.'
       send_invite: 'Send an invite to became a friend'
+      profile_of: "Profile of %{user}"
+    conversation:
+      blank: "You don't have any conversation yet!"
+    friendship:
+      blank: 'You have not friends yet. Invite them to have friends'
+      exists: "%{user} is your friedn"
+      accounts: "All users"
+    invite: 
+      already_sent: 'Invite has been alredy sent.'
+      cancel: 'Cancel invite'
+      your_invite:
+        not_confirmed: 'You have alredy sent invite, but it have not been confirmed yet.'
+        canceled: 'Invite was canceled. Send more time.'
+        you_are_sender: 'You send invite to friend to: '
+      users_invite:
+        not_confirmed: 'User have alredy sent invite, but it have not been confirmed yet.'
+        sender: 'You have an invite to friend from '
+        canceled: "You canceled the invite."
+    message:
+      chat: "A chat with "
   flash:
     new: "The %{model} was saved successfully"
     update: "The %{model} was updated successfully"
     destroy: "The %{model} was deleted successfully"
+    send: "The %{model} sent successfully"
+    accept: "The offer of %{model} was accepted"
+    cancel: "The %{model} was canceled successfully"
+    fill_account: "You should fill your profile to look at another profile"
   devise:
     confirmations:
       confirmed: 'Your email address has been successfully confirmed.'
