@@ -1,0 +1,8 @@
+<%= turbo_frame_tag dom_id(@comment) do %>
+  <section>
+    <h4 class='md-4'><% i18n_model_name(@comment, count: 1) %></h4>
+    <%= render partial: "comments/form", locals: { comment: @comment, method: :put,
+      url: comment_path(@comment), submit: t('submit.edit', model: i18n_model_name(@comment).downcase),
+      path: post_path(@comment.commentable_id) } %>  
+  </section>
+<% end %>
