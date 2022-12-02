@@ -87,12 +87,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_110615) do
   end
 
   create_table "groups", force: :cascade do |t|
-    t.string "name_grou"
     t.text "description"
     t.string "visibility"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "group_creator_id"
+    t.string "name_group"
     t.index ["group_creator_id"], name: "index_groups_on_group_creator_id"
   end
 
