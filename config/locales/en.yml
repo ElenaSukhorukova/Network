@@ -72,6 +72,11 @@ en:
         author: 'Author: '
       interest: 
         name_interest: 'Interest'
+      group:
+        name_group: "Group's name"
+        description: "Group's description"
+        creator: "Group's creator"
+        participants: "Participants of the group"
   submit:
     create: "Create a new %{model}"
     edit: "Edit the %{model}"
@@ -127,6 +132,11 @@ en:
         canceled: "You canceled the invite."
     message:
       chat: "A chat with "
+    group:
+      created: "My created groups"
+      participant: "I am a participant in groups"
+      not_created: 'You have note created groups yet'
+      not_participants: 'Group has not participants yet'
   flash:
     new: "The %{model} was saved successfully"
     update: "The %{model} was updated successfully"
