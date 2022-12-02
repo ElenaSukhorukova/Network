@@ -1,0 +1,40 @@
+<section class='row row-cols-2'>  
+  <div class='col-6'>
+    <h1 class='my-4'><%= @group.name_group %></h1>
+    <p>
+      <%= attribute_model(@group, :creator) %>
+      <%= link_to @group.group_creator.user_name, account_path(@group.group_creator_id),
+        class: 'link' %>
+      <span class='style-date'>
+        <time datetime="<%= @group.formatted_created_at %>">
+          <%= @group.formatted_created_at %>
+        </time>
+      <span>
+    </p>
+    <p>
+      <%= @group.description %>
+    </p>
+    <% if user_signed_in? && current_user.account.try(:present?) %> 
+      <% if user_signed_in? && @group.group_creator == current_user.account %>
+        <div class="btn-group mt-2" role="group">
+          <%= link_to t('link.edit', model: i18n_model_name(@group).downcase), 
+            edit_group_path(@group), class: "btn btn-outline-dark me-2" %>
+          <%= button_to t('submit.delete', model: i18n_model_name(@group).downcase), group_path(@group), 
+            method: :delete, class: "btn btn-outline-dark me-2", :onclick => "return confirm('Are you sure?')", :remote => true %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class='col-6 card'>
+    <div class='card-body'>
+      <% if @group.group_participant.try(:any?)%>
+        <h2 class='mt-2 card-title'><%= attribute_model(@group, :participants) %><h2>
+          <% @group.group_participant.each do |participant| %>
+            <p class='card-text'><%= link_to participant.user_name, account_path(participant), class: 'link' %></p>
+          <% end %>
+      <% else %>
+        <p class='card-text'><%= t('page.group.not_participants') %></p>
+      <% end %>
+    </div>
+  </div>
+</section>

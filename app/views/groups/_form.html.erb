@@ -1,10 +1,10 @@
 <div class='col-8'>
 	<%= simple_form_for group, url: url, method: method do |f| %>
     <%#= f.file_field :avatar, class:"form-control", id: "formFile", input_html: { class: 'my-3'} %>
-		<%= f.input :name_grou, input_html: { class: 'my-3'} %>
+		<%= f.input :name_group, input_html: { class: 'my-3'} %>
 		<%= f.input :description, input_html: { class: 'my-3' } %>
 		<div class='my-3'>
-			<%= f.input :description, as: :radio_buttons, collection: Group::VALID_VISIBILITY, 
+			<%= f.input :visibility, as: :radio_buttons, collection: Group::VALID_VISIBILITY, 
 				item_wrapper_class: 'inline' %>
 		</div>		
 			<p class='my-3'><%= i18n_model_name(Interest.new, count: 2) %></p>

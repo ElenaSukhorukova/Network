@@ -1,0 +1,6 @@
+<section>
+  <h1 class='md-4'><%= t('page.edit', model: i18n_model_name(@group).downcase) %></h1>
+
+  <%= render partial: 'form',  locals: { group: @group, method: :put, url: group_path(@group), 
+    submit: t('submit.edit', model: i18n_model_name(@group).downcase) } %>
+</section>
