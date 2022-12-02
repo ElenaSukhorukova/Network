@@ -15,6 +15,9 @@ class Account < ApplicationRecord
     end
   end
 
+  # to show account except current
+  scope :except_current_account, ->(account) { where.not(id: account) }
+
   has_many :f_partner_conversation, class_name: 'Conversation', foreign_key: :f_partner_conversation_id, through: :sender_message, dependent: :destroy
   has_many :s_partner_conversation, class_name: 'Conversation', foreign_key: :s_partner_conversation_id, through: :reciepient_message, dependent: :destroy
   
@@ -29,7 +32,7 @@ class Account < ApplicationRecord
 
   has_many :group_participant
   has_many :groups, through: :group_participant 
-  has_many :group_creator, class_name: 'Group', foreign_key: :group_creator_id, dependent: :destroy
+  has_many :groups, class_name: 'Group', foreign_key: :group_creator_id, dependent: :destroy
 
   has_many :comments, class_name: 'Comment', foreign_key: :author_comment_id, dependent: :destroy
   has_many :posts, class_name: 'Post', foreign_key: :author_post_id, dependent: :destroy
@@ -39,7 +42,4 @@ class Account < ApplicationRecord
 
   has_many :f_partner_friendship, class_name: 'Friendship', foreign_key: :f_partner_friendship_id, dependent: :destroy
   has_many :s_partner_friendship, class_name: 'Friendship', foreign_key: :s_partner_friendship_id, dependent: :destroy
- 
-  # to show account except current
-  scope :except_current_account, ->(account) { where.not(id: account) }
 end
