@@ -1,6 +1,6 @@
 <%= turbo_frame_tag dom_id(@message) do %>
   <%= render partial: 'shared/go_back_button', locals: { path: account_path(@recipient) } %>
-  <%= render partial: "accounts/messages/form", locals: { message: @message, url: account_messages_path(@recipient), 
-    method: :post, submit: t('submit.send', model: i18n_model_name(@message).downcase), path: account_path(@recipient)} %>
+  <%= render partial: "accounts/messages/form", locals: { model: [@recipient, @message], method: :post, 
+    submit: t('submit.send', model: i18n_model_name(@message).downcase), path: account_path(@recipient)} %>
 <% end %>
 
