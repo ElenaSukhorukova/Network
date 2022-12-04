@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset='utf-8'>
-    <title><%= t('page.site_name') %></title>
+    <title><%= full_title(yield(:page_title)) %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -18,13 +18,13 @@
 
   <body>
     <div class='wrapper'>
-      <%= render 'layouts/header' %>
+      <%= yield :main_menu %>
       
       <div class='container content'>
         <div class='row row-cols-2'>
         
           <div class='col-3'>
-            <%= render 'layouts/right_panel' %>
+            <%= yield :right_menu %>
           </div>
 
           <div class='col-9'>

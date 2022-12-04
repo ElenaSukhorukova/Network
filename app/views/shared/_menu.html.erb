@@ -1,0 +1,43 @@
+<%= provide :main_menu do %>
+  <header>
+    <nav class="navbar navbar-expand-lg">
+      <div class="container ps-5">
+        <%= nav_tab t("page.site_name"), about_path, class: "navbar-brand", current_page: current_page %>
+        <button class="navbar-toggler" type="button" 
+          data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" 
+          aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <%= nav_tab t("navbar.rules"), rules_path, class: "nav-link", current_page: current_page %>
+            </li>
+            <li class="nav-item">
+              <%= nav_tab t("navbar.contacts"), contacts_path, class: "nav-link", current_page: current_page %>
+            </li>
+            <% if user_signed_in? %>
+              <%= nav_tab t("navbar.sign_out"), sign_out_path, 'data-turbo_method': :delete, 
+                :onclick => "return confirm('Are you sure?')", :remote => true, class: "nav-link",
+                current_page: current_page %>
+            <% else %>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <%= t('page.entrance') %>
+                </a>
+                <ul class="dropdown-menu text-center">
+                  <li>
+                    <%= nav_tab t("navbar.sign_in"), sign_in_path, class: "dropdown-item", current_page: current_page %>
+                  </li>
+                  <li>
+                    <%= nav_tab t("navbar.sign_up"), sign_up_path, class: "dropdown-item", current_page: current_page %>
+                  </li>
+                </ul>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+  </header>
+<% end %>
