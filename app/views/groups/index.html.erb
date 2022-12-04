@@ -1,4 +1,7 @@
 <section>
+  <% provide :page_title, i18n_model_name(@created_groups, count: 2) %>
+  <% currently_at i18n_model_name(@created_groups, count: 2) %>
+
   <h1 class='md-4'><%= i18n_model_name(@created_groups, count: 2) %></h1>
   <p>
     <%= link_to t('link.add_new', model: i18n_model_name(Group.new)), 

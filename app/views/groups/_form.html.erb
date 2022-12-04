@@ -1,5 +1,5 @@
 <div class='col-8'>
-	<%= simple_form_for group, url: url, method: method do |f| %>
+	<%= simple_form_for model, method: method do |f| %>
     <%#= f.file_field :avatar, class:"form-control", id: "formFile", input_html: { class: 'my-3'} %>
 		<%= f.input :name_group, input_html: { class: 'my-3'} %>
 		<%= f.input :description, input_html: { class: 'my-3' } %>
