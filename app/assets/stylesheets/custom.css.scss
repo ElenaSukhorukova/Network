@@ -3,12 +3,18 @@
   background-color: slateblue;
 
   .nav-link {
-    color: wheat;
     background-color: slateblue;
     font-size: 20px;
     margin-left: 20px;
     margin-right: 20px;
     border-radius: 5px;
+  }
+
+  .wheat {
+    color: wheat;
+  }
+  .black {
+    color: black;
   }
 
   .nav-link:hover{
@@ -17,7 +23,6 @@
   }
 
   .navbar-brand {
-    color: wheat;
     font-size: 24px;
     border-radius: 5px;
   }
@@ -31,6 +36,7 @@
     font-size: 16px;
   }
 }
+
 .card {
   border-color: slateblue;
 
@@ -42,6 +48,12 @@
     color: slateblue;
   }
 
+  .slateblue {
+    color: slateblue;
+  }
+  .black {
+    color: black;
+  }
 
   // line to split section right navbar
   .line {
