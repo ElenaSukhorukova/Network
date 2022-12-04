@@ -1,4 +1,6 @@
  <section>
+  <% provide :page_title, i18n_model_name(@conversations, count: 2) %>
+  <% currently_at i18n_model_name(@conversations, count: 2) %>
   <h1 class='md-4'><%= i18n_model_name(@conversations, count: 2) %></h1>
 
   <% if @conversations.try(:any?) %>
@@ -17,7 +19,7 @@
             <%= render partial: 'accounts/messages/message', collection: @messages %>
           <% end %>
           <section class='container mt-5' style='align-items:center'>
-          <%= render partial: "accounts/messages/form", locals: { message: @message, url: conversation_messages_path(@conversation), 
+          <%= render partial: "accounts/messages/form", locals: { model: [@conversation, @message], 
             method: :post, submit: t('submit.send', model: i18n_model_name(@message).downcase) } %>
             </section>
         <% end %>
