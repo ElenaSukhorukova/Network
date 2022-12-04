@@ -3,7 +3,7 @@
     <%= render partial: 'shared/go_back_button', locals: { path: account_path(@account) } %>
     <h3 class='md-4'><%= t('page.new', model: i18n_model_name(@interest).downcase) %></h3>
 
-    <%= render partial: 'form',  locals: { interest: @interest, method: :post, url: account_interests_path(@account), 
+    <%= render partial: 'form',  locals: { model: [@account, @interest], method: :post, 
       submit: t('submit.create', model: i18n_model_name(@interest).downcase) } %>
   <% end %>
 </section>
