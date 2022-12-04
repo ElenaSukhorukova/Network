@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  include DateTimeShow
   # validates :body, presence: true, if: :custom_validation
 
   belongs_to :author_post, class_name: "Account", optional: true
