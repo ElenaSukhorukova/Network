@@ -1,4 +1,6 @@
 <section class='show_account'>
+  <% provide :page_title, t('page.account.profile_of', user: @account.user_name.capitalize ) %>
+
   <h1 class='md-4'><%= t('page.account.profile_of', user: @account.user_name.capitalize ) %></h1>
   <div class='row row-cols-2'>
     <div class='col'>
@@ -7,6 +9,7 @@
     </div>
     <div class='col'>   
       <% if @account.user_id == current_user.id %>
+      <% currently_at t("navbar.profile", user: current_user.account.user_name) %>
         <!-- buttons for current user -->
         <%= render 'edit_buttons' %>
         <div class='col-8'>
@@ -37,12 +40,13 @@
           <% end %>
         </section>
       <% else %>
+      <% currently_at %>
         <%= turbo_frame_tag dom_id(@message) do %>
           <%= link_to t('link.message'), new_account_message_path(@account), 
             class: "btn btn-outline-dark mb-2", role: 'button' %>
         <% end %>
         <% if check_friendship?(current_user.account.id, @account.id) %>
-          <%= t('page.friendship.exists') %>
+          <p><%= t('page.friendship.exists', user: @account.user_name) %></p>
           <% else %>
             <% if @yours_invite.present? %>
               <% if @yours_invite.confirmed == 'not' %>

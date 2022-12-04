@@ -1,5 +1,8 @@
 <section>
+  <% provide :page_title, i18n_model_name(@accounts, count: 2) %>
+  <% currently_at %>
   <% if @accounts.try(:any?) %>
+  <h1 class='my-2'><%= i18n_model_name(@accounts, count: 2) %></h1>
     <%= render partial: 'account', collection: @accounts %>
   <% end %>
 </section>

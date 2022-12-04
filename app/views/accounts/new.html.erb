@@ -1,4 +1,7 @@
 <section>
+  <% provide :page_title, t('page.new', model: i18n_model_name(@account).downcase) %>
+  <% currently_at t('link.add_new', model: i18n_model_name(@account, count: 1).downcase) %>
+
   <%= render partial: 'shared/go_back_button', locals: { path: root_path } %>
   <h1 class='md-4'><%= t('page.new', model: i18n_model_name(@account).downcase) %></h1>
   <p><%= t('page.account.empty_profile') %></p>

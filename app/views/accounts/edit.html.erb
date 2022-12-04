@@ -1,4 +1,7 @@
 <section>
+  <% provide :page_title, t('page.edit', model: i18n_model_name(@account)) %>
+  <% currently_at %>
+
   <h1 class='md-4'><%= t('page.edit', model: i18n_model_name(@account)) %></h1>
   <%= render partial: 'form', locals: { account: @account, method: :put, 
     url: account_path(@account), submit: t('submit.edit', model: i18n_model_name(@account).downcase) } %>
