@@ -12,8 +12,7 @@ Rails.application.routes.draw do
   get 'contacts', to: 'static_pages#contacts'
 
   root to: "posts#index"
-  resources :posts, only: %i[index]
-
+  
   scope module: :accounts do
     resources :accounts, except: %i[index show new create edit update destroy] do
       resources :messages, only: %i[new create]
