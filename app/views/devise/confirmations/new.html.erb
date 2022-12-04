@@ -1,3 +1,5 @@
+<% provide :page_title, t("devise.confirmations.new.resend_confirmation_instructions") %>
+<% currently_at %>
 <h1 class='md-4'><%= t("devise.confirmations.new.resend_confirmation_instructions") %></h1>
 <div class='col-sm-5'>
   <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), 

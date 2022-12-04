@@ -1,3 +1,6 @@
+<% provide :page_title, t("devise.unlocks.new.resend_unlock_instructions") %>
+<% currently_at %>
+
 <h1 class='md-4'><%= t("devise.unlocks.new.resend_unlock_instructions") %></h1>
 <div class='col-sm-5'>
   <%= simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), 
