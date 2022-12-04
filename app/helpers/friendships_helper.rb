@@ -5,4 +5,10 @@ module FriendshipsHelper
     
     true if friendship
   end
+
+  def find_friend(friendship)
+    account_id = friendship.f_partner_friendship_id == current_user.account.id ? friendship.s_partner_friendship_id :
+    friendship.f_partner_friendship_id
+    Account.find_by(id: account_id)
+  end
 end
