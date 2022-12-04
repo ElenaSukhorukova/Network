@@ -1,4 +1,6 @@
 <section class='my-4'>
+  <% provide :page_title, i18n_model_name(@post)%>
+  <% currently_at %>
   <p>
   <%= link_to @post.author_post.user_name, account_path(@post.author_post), class: 'link' %>
   <span class='style-date'>
@@ -31,7 +33,7 @@
     <% end %>
   </section>
   <div class='col-8'>
-    <%= render partial: "comments/form", locals: { comment: [@post, Comment.new], method: :post,
-      url: post_comments_path(@post), submit: t('submit.create', model: i18n_model_name(@comments).downcase) } %>
+    <%= render partial: "comments/form", locals: { model: [@post, Comment.new], method: :post,
+      submit: t('submit.create', model: i18n_model_name(@comments).downcase) } %>
   </div>
 <% end %>
