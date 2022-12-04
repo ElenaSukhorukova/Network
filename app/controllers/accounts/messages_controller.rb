@@ -1,6 +1,6 @@
 class Accounts::MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :define_interlocutors
+  before_action :define_interlocutors!
 
   def new
     @message = Message.new
@@ -26,7 +26,7 @@ class Accounts::MessagesController < ApplicationController
 
   private
   
-    def define_interlocutors
+    def define_interlocutors!
       @sender = current_user.account
       @recipient = Account.find(params[:account_id])
     end

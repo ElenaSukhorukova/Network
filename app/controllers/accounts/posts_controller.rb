@@ -1,7 +1,7 @@
 class Accounts::PostsController < ApplicationController
   before_action :authenticate_user!
-  before_action :define_account
-  before_action :define_post, except: %i[index new create]
+  before_action :define_account!
+  before_action :define_post!, except: %i[index new create]
 
   def new 
     @post = @account.posts.build
@@ -39,12 +39,12 @@ class Accounts::PostsController < ApplicationController
 
   private
 
-    def define_post
+    def define_post!
       @post = Post.find(params[:id])
     end
 
-    def define_account
-      @account = Account.find_by(user_id: current_user.id) if user_signed_in?
+    def define_account!
+      @account = Account.find(params[:account_id])
     end
 
     def post_params

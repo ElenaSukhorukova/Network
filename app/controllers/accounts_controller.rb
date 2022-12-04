@@ -1,8 +1,8 @@
 class AccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_filled_profile, except: %i[new create]
-  before_action :define_account, except: %i[index new create]
-  before_action :define_user, only: %i[new create]
+  before_action :define_account!, except: %i[index new create]
+  before_action :define_user!, only: %i[new create]
   after_action :delete_canceled_invites, only: %i[show]
 
   def index
@@ -10,7 +10,7 @@ class AccountsController < ApplicationController
   end
 
   def show
-    @posts = @account.posts.where(place: 'content')
+    @posts = @account.posts.where(place: 'content').order(created_at: :desc)
     @interests = @account.interests
 
     @post = Post.new
@@ -69,11 +69,11 @@ class AccountsController < ApplicationController
       end
     end
 
-    def define_account
+    def define_account!
       @account = Account.find(params[:id])
     end
 
-    def define_user
+    def define_user!
       @user = User.find_by(id: current_user.id)
     end
     

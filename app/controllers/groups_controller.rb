@@ -1,7 +1,7 @@
 class GroupsController < ApplicationController
   before_action :authenticate_user!
-  before_action :define_account, except: %i[edit update destroy]
-  before_action :define_group, except: %i[index new create]
+  before_action :define_account!, except: %i[edit update destroy]
+  before_action :define_group!, except: %i[index new create]
 
   def index
     @created_groups = Group.where(group_creator_id: @account.id)
@@ -51,11 +51,11 @@ class GroupsController < ApplicationController
 
   private
     
-    def define_account
+    def define_account!
       @account = Account.find_by(user_id: current_user.id)
     end
 
-    def define_group
+    def define_group!
       @group = Group.find(params[:id])
     end
 

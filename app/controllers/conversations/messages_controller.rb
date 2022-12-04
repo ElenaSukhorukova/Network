@@ -1,7 +1,7 @@
 class Conversations::MessagesController < ApplicationController
   before_action :authenticate_user!
-  before_action :define_interlocutors, only: %i[ create ]
-  before_action :define_message, only: %i[edit update destroy]
+  before_action :define_interlocutors!, only: %i[ create ]
+  before_action :define_message!, only: %i[edit update destroy]
   include FindInterlocutorHelper
   
   def create
@@ -57,13 +57,13 @@ class Conversations::MessagesController < ApplicationController
 
   private
     
-    def define_interlocutors
+    def define_interlocutors!
       @conversation = Conversation.find(params[:conversation_id])
       @sender = current_user.account
       @recipient = find_interlocutor(@sender.id, @conversation)
     end
 
-    def define_message
+    def define_message!
       @message = Message.find(params[:id])
     end
 

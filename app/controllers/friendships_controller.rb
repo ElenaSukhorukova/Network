@@ -1,10 +1,8 @@
 class FriendshipsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :define_account
-  helper_method :find_friend
-  after_action :delete_canceled_invites, only: %i[invites]
-
   include FriendshipsHelper
+  before_action :authenticate_user!
+  before_action :define_account!
+  after_action :delete_canceled_invites, only: %i[invites]
 
   def index
     @friends = Friendship.account_friends(@account.id)
@@ -36,17 +34,11 @@ class FriendshipsController < ApplicationController
 
   private
 
-    def define_account
+    def define_account!
       @account = Account.find_by(user_id: current_user.id)
       @accounts = Account.except_current_account(current_user.account).order(user_name: :asc)
     end
     
-    def find_friend(friendship)
-      account_id = friendship.f_partner_friendship_id == current_user.account.id ? friendship.s_partner_friendship_id :
-      friendship.f_partner_friendship_id
-      Account.find_by(id: account_id)
-    end
-
     def friendship_params
       params.require(:friendship).permit(:confirmed)
     end

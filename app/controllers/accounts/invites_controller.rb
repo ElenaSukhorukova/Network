@@ -1,6 +1,6 @@
 class Accounts::InvitesController < ApplicationController
   before_action :authenticate_user!
-  before_action :define_accounts
+  before_action :define_accounts!
 
   def create
     @invite = Invite.new(sender_invite_id: @sender.id, receiver_invite_id: @receiver.id)
@@ -22,7 +22,7 @@ class Accounts::InvitesController < ApplicationController
 
   private
 
-  def define_accounts
+  def define_accounts!
     @sender = Account.find_by(user_id: current_user.id)
     @receiver = Account.find(params[:account_id])
   end

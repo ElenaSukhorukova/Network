@@ -1,6 +1,6 @@
 class Accounts::InterestsController < ApplicationController
   before_action :authenticate_user!
-  before_action :define_account
+  before_action :define_account!
 
   def new
     @interest = Interest.new
@@ -19,7 +19,7 @@ class Accounts::InterestsController < ApplicationController
 
   private
 
-    def define_account
+    def define_account!
       @account = Account.find_by(user_id: current_user.id)
     end
 

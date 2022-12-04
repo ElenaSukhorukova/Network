@@ -1,7 +1,7 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user!
-  before_action :define_variables
-  before_action :define_comment, except: %i[create]
+  before_action :define_variables!
+  before_action :define_comment!, except: %i[create]
   helper_method :commentable_path
   
   def create
@@ -43,11 +43,11 @@ class CommentsController < ApplicationController
 
   private
     
-    def define_comment
+    def define_comment!
       @comment = Comment.find(params[:id])
     end
 
-    def define_variables
+    def define_variables!
       @account = Account.find_by(user_id: current_user.id)
 
       # set commentable

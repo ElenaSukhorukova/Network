@@ -1,7 +1,7 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[index]
-  before_action :define_post, except: %i[index new create]
-  before_action :define_account, only: %i[new create index]
+  before_action :define_post!, except: %i[index new create]
+  before_action :define_account!, only: %i[new create index]
 
   def show
     @comments = @post.comments
@@ -46,11 +46,11 @@ class PostsController < ApplicationController
   end
 
   private
-    def define_post
+    def define_post!
       @post = Post.find(params[:id])
     end
 
-    def define_account
+    def define_account!
       @account = Account.find_by(user_id: current_user.id) if user_signed_in?
     end
 
