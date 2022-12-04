@@ -117,7 +117,7 @@ en:
       blank: "You don't have any conversation yet!"
     friendship:
       blank: 'You have not friends yet. Invite them to have friends'
-      exists: "%{user} is your friedn"
+      exists: "%{user} is your friend"
       accounts: "All users"
     invite: 
       already_sent: 'Invite has been alredy sent.'
