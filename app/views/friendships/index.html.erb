@@ -1,4 +1,7 @@
 <section class='row'>
+  <% provide :page_title, i18n_model_name(Friendship.new, count: 2) %>
+  <% currently_at i18n_model_name(Friendship.new, count: 2) %>
+  
   <section class='col-4 card mx-2'>
     <div class='card-body'>
       <h1 class='md-4 card-title'><%= i18n_model_name(Friendship.new, count: 2) %></h1>
