@@ -1,2 +1,8 @@
-<% provide :page_title, t("page.site_name") %>
-<% currently_at t("page.site_name") %>
+<% provide :page_title, t("navbar.about") %>
+<% currently_at t("navbar.about") %>
+
+<article class="article">
+  <h2 class='mt-4 mb-2'><span><%= t('page.about.title') %></span>&nbsp;<%= t('page.site_name') %></h2>
+  <div class="clr"></div>
+  <p><%= t('page.about.paragraph') %></p>
+</article>
