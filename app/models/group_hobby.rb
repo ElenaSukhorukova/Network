@@ -1,0 +1,4 @@
+class GroupHobby < ApplicationRecord
+  belongs_to :group
+  belongs_to :hobby
+end
