@@ -1,0 +1,8 @@
+<% if @account.visibility == 'everybody' || check_friendship?(current_user.account, @account) %>
+  <%= turbo_frame_tag dom_id(@message) do %>
+    <%= link_to(new_account_message_path(@account), title: t('link.message'),  
+        class: "btn btn-outline-dark btn-sm profile") do %>
+      <i class="bi bi-chat-left-dots-fill"></i>
+    <% end %>
+  <% end %>
+<% end %>   
