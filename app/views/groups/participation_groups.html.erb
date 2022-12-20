@@ -1,0 +1,16 @@
+<% provide :page_title, i18n_model_name(Group.new, count: 2) %>
+<% currently_at i18n_model_name(Group.new, count: 2) %>
+<%= group_page_name t('page.group.participation_groups') %>
+
+<article class='article'>
+  <h2 class='mt-4 mb-2'><%= t('page.group.participation_groups') %></h2>
+
+  <% if @created_groups.try(:any?) %>
+    <%= render @participation_groups %>
+    <div class='my-2'>
+      <%== pagination(@pagy) %>
+    </div>
+  <% else %>
+    <%= t('page.group.not_participants') %>
+  <% end %>
+</article>

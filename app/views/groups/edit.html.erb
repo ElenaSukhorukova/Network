@@ -1,7 +1,7 @@
 <section>
   <% provide :page_title, t('page.edit', model: i18n_model_name(@group).downcase) %>
   <% currently_at %>
-  <h1 class='md-4'><%= t('page.edit', model: i18n_model_name(@group).downcase) %></h1>
+  <h2 class='mt-4 mb-2'><%= t('page.edit', model: i18n_model_name(@group).downcase) %></h2>
 
   <%= render partial: 'form',  locals: { model: @group, method: :put, 
     submit: t('submit.edit', model: i18n_model_name(@group).downcase) } %>

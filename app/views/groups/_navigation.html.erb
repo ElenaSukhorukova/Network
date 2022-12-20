@@ -1,0 +1,6 @@
+<%= link_nav t('page.group.all_grops'), account_groups_path(@account), 
+    role: 'button', page_name: page_name %>
+<%= link_nav t('page.group.your_groups'), your_groups_path(@account), 
+    page_name: page_name, role: 'button' %>
+<%= link_nav t('page.group.participation_groups'), participation_groups_path(@account), 
+    page_name: page_name, role: 'button' %>

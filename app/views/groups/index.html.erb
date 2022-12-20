@@ -1,35 +1,16 @@
-<section>
-  <% provide :page_title, i18n_model_name(@created_groups, count: 2) %>
-  <% currently_at i18n_model_name(@created_groups, count: 2) %>
+<% provide :page_title, i18n_model_name(Group.new, count: 2) %>
+<% currently_at i18n_model_name(Group.new, count: 2) %>
+<%= group_page_name t('page.group.all_grops') %>
 
-  <h1 class='md-4'><%= i18n_model_name(@created_groups, count: 2) %></h1>
-  <p>
-    <%= link_to t('link.add_new', model: i18n_model_name(Group.new)), 
-      new_account_group_path(@account), class: "btn btn-outline-dark" %>
-  </p>
-  <section>
-    <% if @created_groups.try(:any?) %>
-      <h2 class='md-4'><%= t('page.group.created') %></h2>
-      <%= Group.where(group_creator_id: @account.id).inspect %>
-      <% @created_groups.each do |group| %>
-        <%= group.group_creator_id %>
-        <article>
-          <h3 class='md-4'><%= group.name_group %></h3>
-          <p><%= group.description %></p>
-          <p>
-            <%= link_to t('link.show', model: i18n_model_name(group).downcase), 
-              group_path(group), class: "btn btn-outline-dark me-2" %>
-          </p>
-        </article>
-      <% end %>
-    <% else %>
-      <%= t('page.group.not_created') %>
-    <% end %>
-  </section>
-  <p class='line'></p>
-    <section>
-      <%# <h2 class='md-4'><%= t('page.group.participant') %></h2> %>
-    <%# @groups.each do |group| %>
-    <%# end %>
-    <%# end %> 
-</section>
+<article class='article'>
+  <h2 class='mt-4 mb-2'><%= t('page.group.all_grops') %></h2>
+
+  <% if @all_groups.try(:any?) %>
+    <%= render @all_groups %>
+    <div class='my-2'>
+      <%== pagination(@pagy) %>
+    </div>
+  <% else %>
+    <%= render 'blank' %>
+  <% end %>
+</artcile>

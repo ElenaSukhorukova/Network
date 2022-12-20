@@ -1,43 +1,77 @@
-<section class='row row-cols-2'>  
-  <% provide :page_title, @group.name_group %>
-  <% currently_at %>
-  
-  <div class='col-6'>
-    <h1 class='my-4'><%= @group.name_group %></h1>
-    <p>
-      <%= attribute_model(@group, :creator) %>
-      <%= link_to @group.group_creator.user_name, account_path(@group.group_creator_id),
-        class: 'link' %>
-      <span class='style-date'>
-        <time datetime="<%= @group.formatted_created_at %>">
-          <%= @group.formatted_created_at %>
-        </time>
-      <span>
-    </p>
-    <p>
-      <%= @group.description %>
-    </p>
-    <% if user_signed_in? && current_user.account.try(:present?) %> 
-      <% if user_signed_in? && @group.group_creator == current_user.account %>
-        <div class="btn-group mt-2" role="group">
-          <%= link_to t('link.edit', model: i18n_model_name(@group).downcase), 
-            edit_group_path(@group), class: "btn btn-outline-dark me-2" %>
-          <%= button_to t('submit.delete', model: i18n_model_name(@group).downcase), group_path(@group), 
-            method: :delete, class: "btn btn-outline-dark me-2", :onclick => "return confirm('Are you sure?')", :remote => true %>
-        </div>
-      <% end %>
-    <% end %>
-  </div>
-  <div class='col-6 card'>
-    <div class='card-body'>
-      <% if @group.group_participant.try(:any?)%>
-        <h2 class='mt-2 card-title'><%= attribute_model(@group, :participants) %><h2>
-          <% @group.group_participant.each do |participant| %>
-            <p class='card-text'><%= link_to participant.user_name, account_path(participant), class: 'link' %></p>
-          <% end %>
-      <% else %>
-        <p class='card-text'><%= t('page.group.not_participants') %></p>
+<% provide :page_title, @group.name_group %>
+<% currently_at %>
+
+<article class="article profile">
+  <h2 class='mt-4 mb-2'><%= @group.name_group %></h2>
+  <div class='row row-cols-3'>
+    <div class='col-1'>
+      <% if @account == @group.group_creator %>
+        <%= link_to(edit_group_path(@group), class: "btn btn-outline-dark btn-sm", 
+            title:  t('link.edit', model: i18n_model_name(@group).downcase)) do %>
+            <i class="bi bi-pencil-fill"></i>
+        <% end %>
+        <%= button_to(group_path(@group), method: :delete, :onclick => "return confirm('Are you sure?')", 
+            :remote => true, class: "btn btn-outline-dark mt-1 btn-sm", 
+            title: t('submit.delete', model: i18n_model_name(@group).downcase)) do %>
+          <i class="bi bi-trash3-fill"></i>
+        <% end %>
       <% end %>
     </div>
+    <div class='col-8'>
+      <p class="infopost">
+        <%= attribute_model(@group, :creator) %>
+        <%= link_to @group.group_creator.decorate.capitalize_name, account_path(@group.group_creator) %>
+        &nbsp;&bull;&nbsp;
+        <span class="date">
+          <time datetime="<%= @group.created_at %>">
+            <%= @group.formatted_created_at %>
+          </time>
+        <span>
+      </p>
+      <div class="clr"></div>
+      <p>
+        <strong><%= attribute_model(@group, :description) %>:&nbsp;</strong>
+        <%= strip_tags @group.description %>
+      </p>
+      <div class="clr"></div>
+      <% if @group.hobbies.try(:any?) %>
+        <p>
+          <strong><%= i18n_model_name(Hobby.new, count: 2) %>:&nbsp;</strong>
+          <%= render @group.hobbies %>
+        </p>
+      <% end %>
+      <p>
+        <strong><%= attribute_model(@group, :visibility) %>:&nbsp;</strong>
+        <%= @group.visibility %>
+      </p>
+    </div>
+    <div class='col-3'>
+      <h6><%= t('page.group.participations') %></h6>
+        <%= button_to('#', method: :post, title: t('link.become_participant'), 
+            class: "btn btn-outline-dark btn-sm profile my-1") do %>
+          <%# become_group_participant %>
+          <i class="bi bi-universal-access"></i>
+        <% end %>
+    </div>
   </div>
+  <% if @account == @group.group_creator %>
+    <%= turbo_frame_tag dom_id(@hobby) do %>
+      <%= link_to(new_group_hobby_path(@group), class: "btn btn-outline-dark btn-sm mt-1", 
+          title:  t('link.add_new', model: i18n_model_name(@hobby).downcase), ) do %>
+        <i class="bi bi-scooter"></i>
+      <% end %>
+    <% end %>
+  <% end %>
+</article>
+<section>
+  <h3 class='mt-4 mb-2'><%= i18n_model_name(Content.new) %></h3>
+  <% if @contents.try(:any?) %>
+    <%= turbo_frame_tag dom_id(Content.new) do %>
+      <%= link_to t('link.add_new_plural', model: attribute_model(Content.new, :body).downcase), 
+          new_group_content_path(@group), class: "btn btn-outline-dark btn-sm mb-4" %>
+    <% end %>
+    <%= render partial: 'groups/contents/content', collection: @contents %>
+  <% else %>
+    <%= render 'groups/contents/empty_state' %>
+  <% end%>
 </section>

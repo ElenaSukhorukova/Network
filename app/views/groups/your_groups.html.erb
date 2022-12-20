@@ -1,0 +1,19 @@
+<% provide :page_title, t('page.group.your_groups') %>
+<% currently_at i18n_model_name(Group.new, count: 2) %>
+<%= group_page_name t('page.group.your_groups') %>
+
+<article class='article'>
+  <h2 class='mt-4 mb-2'><%= t('page.group.your_groups') %></h2>
+  
+  <%= link_to t('link.add_new', model: i18n_model_name(Group.new)), 
+      new_account_group_path(@account), class: "btn btn-outline-dark btn-sm" %>
+
+  <% if @created_groups.try(:any?) %>
+    <%= render @created_groups %>
+    <div class='my-2'>
+      <%== pagination(@pagy) %>
+    </div>
+  <% else %>
+    <%= t('page.group.not_created') %>
+  <% end %>
+</article>

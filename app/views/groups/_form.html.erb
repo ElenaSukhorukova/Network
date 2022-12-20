@@ -1,17 +1,19 @@
-<div class='col-8'>
-	<%= simple_form_for model, method: method do |f| %>
-    <%#= f.file_field :avatar, class:"form-control", id: "formFile", input_html: { class: 'my-3'} %>
-		<%= f.input :name_group, input_html: { class: 'my-3'} %>
-		<%= f.input :description, input_html: { class: 'my-3' } %>
-		<div class='my-3'>
-			<%= f.input :visibility, as: :radio_buttons, collection: Group::VALID_VISIBILITY, 
-				item_wrapper_class: 'inline' %>
-		</div>		
-			<p class='my-3'><%= i18n_model_name(Interest.new, count: 2) %></p>
-			<%= f.simple_fields_for :interests do |interest_form| %>
-       	<%= interest_form.input :name_interest %>
-			<% end %>
-		<%= f.button :submit, submit, class: "btn btn-outline-dark my-3" %>			
-		<%= render partial: 'shared/cancel_button', locals: { path: group_path(f.object) } if f.object.persisted? %>
-	<% end %>		
-</div>
+<%= simple_form_for model, method: method do |f| %>
+  <%#= f.file_field :avatar, class:"form-control", id: "formFile", input_html: { class: 'my-3'} %>
+	<%= f.input :name_group, input_html: { class: 'mb-2'} %>
+	<%= f.input :description, input_html: { class: 'mb-2' } %>
+	<%= f.input :visibility, as: :radio_buttons, collection: Group::VALID_VISIBILITY, 
+																								item_wrapper_class: 'inline',
+																								input_html: { class: 'mx-2 mb-2' } %>
+
+	<h4 class='mt-4 mb-2'><%= i18n_model_name(Hobby.new, count: 2) %></h4>
+	<%= f.simple_fields_for :hobbies, include_id: false do |hobby_form| %>
+		<%= hobby_form.input :hobby_name, input_html: { class: 'mb-2' } %>
+	<% end %>
+
+	<%= f.button :submit, f.object.new_record? ? t('submit.create', model: i18n_model_name(f.object).downcase) 
+                                              : t('submit.edit', model: i18n_model_name(f.object).downcase), 
+                                              class: "btn btn-outline-dark my-2 btn-sm" %>
+	<%= render partial: 'shared/cancel_button', locals: { path: group_path(f.object) } if f.object.persisted? %>
+<% end %>		
+

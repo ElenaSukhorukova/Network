@@ -1,0 +1,23 @@
+ <article class="article">
+  <h5 class='mt-4 mb-2'><%= link_to strip_tags(group.name_group), group_path(group) %></h5>
+  <p class="infopost">
+    <%= attribute_model(group, :author) %>
+    <%= link_to group.group_creator.decorate.capitalize_name, account_path(group.group_creator) %>
+    &nbsp;&bull;&nbsp;
+    <span class="date">
+      <time datetime="<%= group.created_at %>">
+        <%= group.formatted_created_at %>
+      </time>
+    <span>
+  </p>
+  <div class="clr"></div>
+  <div class="post_content">
+    <p>
+      <%= truncate strip_tags(group.description), length: 150, omission: '... (continued)' %>
+    </p>
+    <p class="spec" >
+      <%= link_to sanitize(t('link.show_post')), group_path(group), class: "rm" %>
+    </p>
+  </div>
+  <div class="clr"></div>
+</article>
