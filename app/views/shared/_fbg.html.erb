@@ -1,0 +1,39 @@
+<div class="fbg_resize">
+  <div class="col c2">
+    <h2><span><%= t('page.contacts.contacts') %></span></h2>
+    <div itemscope itemtype="http://schema.org/Organization" class="contact_info">   
+      <p>
+        <span class='title'><%= t('page.contacts.company') %></span>&nbsp; 
+        <span itemprop="name"><%= t('page.site_name') %></span>
+      </p>
+      <div itemprop="address" itemscope itemtype="http://schema.org/PostalAddress" class="contact_info">
+        <p>
+          <span class='title'><%= t('page.contacts.address.attr_address') %></span> &nbsp;
+          <span itemprop="streetAddress"><%= t('page.contacts.address.address') %></span>
+        </p>
+        <p>
+          <span class='title'><%= t('page.contacts.address.attr_post_code') %></span> &nbsp; 
+          <span itemprop="postalCode"><%= t('page.contacts.address.post_code') %></span>
+        </p>
+        <p>
+          <span class='title'><%= t('page.contacts.address.attr_city') %></span> &nbsp;
+          <span itemprop="addressLocality"><%= t('page.contacts.address.city') %></span>
+        </p>
+      </div>
+      <p>   
+        <span class='title'><%= t('page.contacts.address.attr_phone') %></span> &nbsp;
+        <span itemprop="telephone">
+          <%= link_to t('page.contacts.address.phone'), "tel:#{t('page.contacts.address.phone')}" %>
+        </span>
+      </p>
+      <p>
+        <span class='title'><%= t('page.contacts.address.attr_email') %></span> &nbsp;
+        <span itemprop="email">
+          <%= link_to t('page.contacts.address.email'), "mailto: #{t('page.contacts.address.email')}" %>
+        </span>
+      </p>
+      </div>
+    </div>
+    <div class="clr"></div>
+  </div>
+</div>
