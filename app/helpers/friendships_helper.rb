@@ -1,14 +1,16 @@
 module FriendshipsHelper
-  def check_friendship?(sender_id, recipient_id)
-   friendship = Friendship.find_by(f_partner_friendship_id: sender_id, s_partner_friendship_id: recipient_id) ||
-   Friendship.find_by(s_partner_friendship_id: sender_id, f_partner_friendship_id: recipient_id)
-    
-    true if friendship
+  def find_friendship(sender, recipient)
+    friendship = Friendship.find_by(f_partner_friendship: sender, s_partner_friendship: recipient) ||
+                Friendship.find_by(s_partner_friendship: sender, f_partner_friendship: recipient)
+  end
+
+  def check_friendship?(sender, recipient)
+    return  true if find_friendship(sender, recipient)
   end
 
   def find_friend(friendship)
-    account_id = friendship.f_partner_friendship_id == current_user.account.id ? friendship.s_partner_friendship_id :
-    friendship.f_partner_friendship_id
-    Account.find_by(id: account_id)
+    account = friendship.f_partner_friendship == current_user.account ? friendship.s_partner_friendship :
+                                                                        friendship.f_partner_friendship
+    account = account.decorate
   end
 end
