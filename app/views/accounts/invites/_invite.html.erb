@@ -1,0 +1,14 @@
+<% if @yours_invite.present? %> 
+  <%= render partial: 'invites/cancel_button', locals: { path: account_invite_path(@account, @yours_invite) } %>
+  <p class='text-end'><%= t('page.invite.your_invite.not_confirmed') %></p>
+  <% if @yours_invite.confirmed == 'canceled' %>
+    <p class='text-end'><%= t('page.invite.your_invite.canceled') %></p>
+    <%= render 'accounts/invites/invite_button' %>
+  <% end %>
+<% else %>
+  <% if check_invite?(@account, current_user.account) %>
+    <%= t('page.invite.users_invite.not_confirmed') %>
+  <% else %>
+    <%= render 'accounts/invites/invite_button' %>
+  <% end %>
+<% end %>

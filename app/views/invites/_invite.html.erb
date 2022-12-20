@@ -1,0 +1,22 @@
+<div class='row row-cols-2'>
+  <% if invite.confirmed == 'not' %>
+    <div class='col'>
+      <%= link_to find_account_name(invite).decorate.capitalize_name, 
+          account_path(find_account_name(invite)) %>
+    </div>
+    <div class='col'>
+      <div class="btn-group" role="group">
+        <% if current_user.account == invite.receiver_invite %>
+          <%= button_to(invite_friendships_path(invite), method: :post, 
+              class: "btn btn-outline-dark btn-sm profile me-2 my-1", 
+              title:  t('page.invite.users_invite.accept')) do  %>
+            <i class="bi bi-check-square-fill"></i>
+          <% end %>
+        <% end %>
+        <%= render partial: 'invites/cancel_button', locals: { path: invite_path(invite) } %>
+      </div>
+    </div>
+  <% else %>
+    <%= t('page.invite.users_invite.canceled') %>
+  <% end %>
+</div>
