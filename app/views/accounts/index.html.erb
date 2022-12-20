@@ -1,8 +1,12 @@
-<section>
-  <% provide :page_title, i18n_model_name(@accounts, count: 2) %>
-  <% currently_at %>
+<% provide :page_title, i18n_model_name(Account.new, count: 2) %>
+<% currently_at %>
+
+<article class='article'>
   <% if @accounts.try(:any?) %>
-  <h1 class='my-2'><%= i18n_model_name(@accounts, count: 2) %></h1>
-    <%= render partial: 'account', collection: @accounts %>
+    <h2 class='mt-4 mb-2'><%= i18n_model_name(Account.new, count: 2) %></h2>
+    <%= render @accounts %>
+    <div class='my-2'>
+      <%== pagination(@pagy) %>
+    </div>
   <% end %>
-</section>
+</artcile>

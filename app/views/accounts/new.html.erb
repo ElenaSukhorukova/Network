@@ -1,10 +1,10 @@
-<section>
   <% provide :page_title, t('page.new', model: i18n_model_name(@account).downcase) %>
   <% currently_at t('link.add_new', model: i18n_model_name(@account, count: 1).downcase) %>
 
+<article class='article'>
+  <h2 class='mt-4 mb-2'><%= t('page.new', model: i18n_model_name(@account).downcase) %></h2>
+  
   <%= render partial: 'shared/go_back_button', locals: { path: root_path } %>
-  <h1 class='md-4'><%= t('page.new', model: i18n_model_name(@account).downcase) %></h1>
   <p><%= t('page.account.empty_profile') %></p>
-  <%= render partial: 'form',  locals: { account: @account, method: :post, 
-    url: user_account_path(@user), submit: t('submit.create', model: i18n_model_name(@account).downcase) } %>
-</section>
+  <%= render partial: 'form',  locals: { model: [@user, @account], method: :post } %>
+</article>

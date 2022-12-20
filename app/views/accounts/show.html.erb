@@ -1,76 +1,36 @@
-<section class='show_account'>
-  <% provide :page_title, t('page.account.profile_of', user: @account.user_name.capitalize ) %>
+<% provide :page_title, t('page.account.profile_of', user: @account.capitalize_name ) %>
+<% currently_at t("navbar.profile", user: @account.capitalize_name ) %>
 
-  <h1 class='md-4'><%= t('page.account.profile_of', user: @account.user_name.capitalize ) %></h1>
+<article class="article">
+  <h2 class='mt-4 mb-2'><%= t('page.account.profile_of', user: @account.capitalize_name ) %></h2>
   <div class='row row-cols-2'>
     <div class='col'>
       <!-- user's profile -->
-      <%= render 'profile' %>
+      <% if @account.user_id == current_user.id || @account.visibility == 'everybody' %>
+        <%= render 'profile' %>
+      <% elsif @account.visibility == 'friends' && check_friendship?(current_user.account, @account) %>
+        <%= render 'profile' %>
+      <% else %>
+        <%= t('page.account.profile_closed') %> 
+      <% end %>    
     </div>
     <div class='col'>   
       <% if @account.user_id == current_user.id %>
-      <% currently_at t("navbar.profile", user: current_user.account.user_name) %>
         <!-- buttons for current user -->
-        <%= render 'edit_buttons' %>
-        <div class='col-8'>
-          <%= turbo_frame_tag dom_id(@interest) do %>
-            <%= link_to t('link.add_new', model: i18n_model_name(@interest).downcase), 
-              new_account_interest_path(@account), class: "btn btn-outline-dark mt-2" %>
-          <% end %>
-        </div>
-        <section class='my-2'>
-
-        <!-- invites current user -->
-          <% if @users_invites.any? %>
-            <% @users_invites.each do |invite| %>
-              <p>
-                <%= t('page.invite.users_invite.sender') %>
-                <%= link_to Account.find_by(id: invite.sender_invite_id).user_name, 
-                  account_path(invite.sender_invite_id), class: 'link' %>
-              </p>
-              <div class="btn-group mt-2" role="group">
-                <%= button_to t('page.users_invite.accept'), invite_friendships_path(invite), method: :post, 
-                  class: "btn btn-outline-dark mx-2", role: 'button' %>
-                <%= simple_form_for invite, url: account_invite_path(@account, invite), method: :put do |f| %>
-                  <%= f.input :confirmed, as: :hidden, input_html: { value: 'canceled'} %>
-                  <%= f.button :submit, t('page.invite.cancel'), class: "btn btn-outline-dark mx-2" %>
-                <% end %>
-              </div>
-            <% end %>
-          <% end %>
-        </section>
+        <%= render 'own_buttons' %>
       <% else %>
-      <% currently_at %>
-        <%= turbo_frame_tag dom_id(@message) do %>
-          <%= link_to t('link.message'), new_account_message_path(@account), 
-            class: "btn btn-outline-dark mb-2", role: 'button' %>
+        <% if check_friendship?(current_user.account, @account) %>
+          <p class='text-end'><%= t('page.friendship.exists', user: @account.user_name) %></p>
+          <%= render partial: 'friendships/delete_button', 
+              locals: { path: account_friendship_path(@account, find_friendship(current_user.account, @account)) } %>  
+        <% else %>
+          <%= render 'accounts/invites/invite' %>
         <% end %>
-        <% if check_friendship?(current_user.account.id, @account.id) %>
-          <p><%= t('page.friendship.exists', user: @account.user_name) %></p>
-          <% else %>
-            <% if @yours_invite.present? %>
-              <% if @yours_invite.confirmed == 'not' %>
-                <p><%= t('page.invite.your_invite.not_confirmed') %></p>
-                <%= simple_form_for @yours_invite, url: account_invite_path(@account, @yours_invite), method: :put do |f| %>
-                  <%= f.input :confirmed, as: :hidden, input_html: { value: 'canceled'} %>
-                  <%= f.button :submit, t('page.invite.cancel'), class: "btn btn-outline-dark mx-2" %>
-                <% end %>
-              <% else %>
-                <p><%= t('page.invite.your_invite. canceled') %></p>
-                <%= button_to t('page.account.send_invite'), account_invites_path(@account), method: :post, 
-                  class: "btn btn-outline-dark mt-2", role: 'button' %>
-              <% end %>
-            <% else %>
-              <%= button_to t('page.account.send_invite'), account_invites_path(@account), method: :post, 
-                class: "btn btn-outline-dark mt-2", role: 'button' %>
-          <% end %>
-        <% end %>
-
+        <%= render 'accounts/messages/send_message_from_account_page' %>   
       <% end %>
     </div>
   </div>
-</section>
+</article>
 <section>
-  <!-- posts of the account -->
-  <%= render 'posts' %>
+  <%= render 'accounts/posts/posts' %>
 </section>

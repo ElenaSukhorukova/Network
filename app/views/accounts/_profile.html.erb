@@ -1,68 +1,36 @@
-<section class='card'>
-  <div class='card-body row row-cols-2'>
-    <div class='card-subtitle col'>
-      <strong><%= attribute_model(@account, :user_name) %>&nbsp;</strong>
-    </div>
-    <div class='card-text col'>
-      <%= @account.user_name %>
-    </div>
-  </div>
-  <div class='card-body row row-cols-2'>
-    <div class='card-subtitle col'>
-      <%= attribute_model(@account, :gender) %>&nbsp;
-    </div>
-    <div class='card-text col'>
-      <%= @account.gender %>
-    </div>
-  </div>
-  <div class='card-body row row-cols-2'>
-    <div class='card-subtitle col'>
-      <%= attribute_model(@account, :date_birthday) %>&nbsp;
-    </div>
-    <div class='card-text col'>
-      <%= I18n.l(@account.date_birthday, format: '%d %B %Y') %>
-    </div>
-  </div>
-  <div class='card-body row row-cols-2'>
-    <div class='card-subtitle col'>
-      <%= attribute_model(@account, :country) %>&nbsp;
-    </div>
-    <div class='card-text col'>
-      <%= @account.country %>
-   </div>
-  </div>
-  <div class='card-body row row-cols-2'>
-    <div class='card-subtitle col'>
-      <%= attribute_model(@account, :about_oneself) %>&nbsp;
-    </div>
-    <div class='card-text col'>
-      <%= @account.about_oneself %>
-    </div>
-  </div>
-  <div class='card-body row row-cols-2'>
-    <div class='card-subtitle col'>
-      <%= attribute_model(@account, :visibility) %>&nbsp;
-    </div>
-    <div class='card-text col'>
-      <%= @account.visibility %>
-    </div>
-  </div>
-  <div class='card-body row row-cols-2'>
-    <div class='card-subtitle col'>
-      <%= attribute_model(@account, :state) %>&nbsp;
-    </div>
-    <div class='card-text col'>
-      <%= @account.state %>
-    </div>
-  </div>
-  <% if @interests.any?%>
-    <div class='card-body row row-cols-2'>
-      <div class='card-subtitle col'>
-        <%= i18n_model_name(@interests, count: 2) %>&nbsp;
-      </div>
-      <div class='card-text col'>
-        <%= render partial: 'accounts/interests/interest', collection: @interests %>
-      </div>
-    </div>
-  <% end %>
+<section class='profile'>
+  <p>
+    <strong><%= attribute_model(@account, :user_name) %>:&nbsp;</strong>
+    <%= strip_tags @account.user_name %>
+  </p>
+  <p>
+    <strong><%= attribute_model(@account, :gender) %>:&nbsp;</strong>
+    <%= @account.gender %>
+  </p>
+  <p>
+    <strong><%= attribute_model(@account, :date_birthday) %>:&nbsp;</strong>
+    <%= @account.decorate_date_birthday %>
+  </p>
+  <p>
+    <strong><%= attribute_model(@account, :country) %>:&nbsp;</strong>
+    <%= @account.country %>
+  </p>
+  <p>
+    <strong><%= attribute_model(@account, :about_oneself) %>:&nbsp;</strong>
+    <%= strip_tags @account.about_oneself %>
+  </p>
+  <p>
+    <strong><%= attribute_model(@account, :visibility) %>:&nbsp;</strong>
+    <%= @account.visibility %>
+  </p>
+  <p>
+    <strong><%= attribute_model(@account, :state) %>:&nbsp;</strong>
+    <%= @account.state %>
+  </p>
+  <p>
+    <% if @hobbies.any?%>
+      <strong><%= i18n_model_name(@hobbies, count: 2) %>:&nbsp;</strong>
+      <%= render @hobbies %>
+    <% end %>
+  </p>
 </section>

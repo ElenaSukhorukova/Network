@@ -1,0 +1,16 @@
+<%= link_to(edit_account_path(@account), class: "btn btn-outline-dark btn-sm profile", 
+    title:  t('link.edit', model: i18n_model_name(@account).downcase)) do %>
+  <i class="bi bi-pencil-fill"></i>
+<% end %>
+<%= button_to(account_path(@account), method: :delete, :onclick => "return confirm('Are you sure?')", 
+    :remote => true, class: "btn btn-outline-dark mt-1 btn-sm profile", 
+    title: t('submit.delete', model: i18n_model_name(@account).downcase)) do %>
+    <i class="bi bi-trash3-fill"></i>
+<% end %>
+<%= turbo_frame_tag dom_id(@hobby) do %>
+  <%= link_to(new_account_hobby_path(@account), class: "btn btn-outline-dark btn-sm mt-1 profile", 
+      title:  t('link.add_new', model: i18n_model_name(@hobby).downcase), ) do %>
+      <i class="bi bi-scooter"></i>
+  <% end %>
+<% end %>
+     
