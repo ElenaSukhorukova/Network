@@ -1,21 +1,19 @@
 class Conversation < ApplicationRecord
   has_many :messages
 
-  has_many :f_partner_conversation, class_name: "Account", through: :message
-  has_many :s_partner_conversation, class_name: "Account", through: :message
+  belongs_to :f_partner_conversation, class_name: "Account", optional: true
+  belongs_to :s_partner_conversation, class_name: "Account", optional: true
 
   # chose a current account conversations
-
-  scope :account_conversations, ->(account_id) {
-    where(f_partner_conversation_id: account_id).or(Conversation.where(s_partner_conversation_id: account_id))
+  scope :account_conversations, ->(account) {
+    where(f_partner_conversation: account).or(Conversation.where(s_partner_conversation: account))
   }
 
   # find a existed conversation or create new one
-
-  def self.new_conv(sender_id, recipient_id)
-    conversation = self.find_by(f_partner_conversation_id: sender_id, s_partner_conversation_id: recipient_id) ||
-      self.find_by(s_partner_conversation_id: sender_id, f_partner_conversation_id: recipient_id)
+  def self.new_conv(sender, recipient)
+    conversation = self.find_by(f_partner_conversation: sender, s_partner_conversation: recipient) ||
+                   self.find_by(s_partner_conversation: sender, f_partner_conversation: recipient)
     
-    conversation ||= new(f_partner_conversation_id: sender_id, s_partner_conversation_id: recipient_id)
+    conversation ||= new(f_partner_conversation: sender, s_partner_conversation: recipient)
   end
 end
