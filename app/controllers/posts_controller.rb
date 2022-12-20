@@ -1,14 +1,16 @@
 class PostsController < ApplicationController
   before_action :authenticate_user!, except: %i[index]
   before_action :define_post!, except: %i[index new create]
-  before_action :define_account!, only: %i[new create index]
+  before_action :define_account!, only: %i[show new create index]
 
   def show
-    @comments = @post.comments
+    @pagy_comment, @comments = pagy @post.comments.order_desc, items: 4, page_param: :pagy_comment
+    @comments = @comments.decorate
   end
 
   def index
-    @posts = Post.where(place: 'content').order(created_at: :desc)
+    @pagy_post, @posts = pagy Post.all.order(created_at: :desc), items: 4, page_param: :pagy_post
+    @posts = @posts.decorate
   end
 
   def new 
@@ -16,7 +18,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = @account.posts.build(post_params)
+    @post = @account.posts.build post_params
     
     if @post.save     
       redirect_to post_path(@post), 
@@ -46,15 +48,16 @@ class PostsController < ApplicationController
   end
 
   private
-    def define_post!
-      @post = Post.find(params[:id])
-    end
+  
+  def define_post!
+    @post = Post.find(params[:id]).decorate
+  end
 
-    def define_account!
-      @account = Account.find_by(user_id: current_user.id) if user_signed_in?
-    end
+  def define_account!
+    @account = Account.find_by(user_id: current_user.id) if user_signed_in?
+  end
 
-    def post_params
-      params.require(:post).permit(:body, :place)
-    end
+  def post_params
+    params.require(:post).permit(:body)
+  end
 end
