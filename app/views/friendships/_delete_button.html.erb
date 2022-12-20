@@ -1,0 +1,5 @@
+<%= button_to(path, method: :delete, :onclick => "return confirm('Are you sure?')", 
+    :remote => true, class: "btn btn-outline-dark mb-2 btn-sm profile", 
+    title: t('submit.friend')) do %>
+    <i class="bi bi-x-square-fill"></i>
+<% end %>

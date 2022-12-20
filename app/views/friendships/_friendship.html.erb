@@ -1,0 +1,8 @@
+<div class='row row-cols-2'>
+  <div class='col'>
+    <%= link_to find_friend(friendship).decorate.capitalize_name, account_path(find_friend(friendship)) %>
+  </div>
+  <div class='col'>
+    <%= render partial: 'delete_button', locals: { path: friendship_path(friendship) } %>
+  </div>
+</div>
