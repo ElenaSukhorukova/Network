@@ -1,14 +1,24 @@
-<p style='desplay:inline'>
-  <%= link_to comment.author_comment.user_name, account_path(comment.author_comment), class: 'link' %>&emsp;&rarr;
-  <%= comment.body %>
-  <% if comment.author_comment == current_user.account %>
-    <div class='col-8'>
-      <%= turbo_frame_tag dom_id(comment) do %>
-        <%= link_to t('submit.simple_edit'), edit_comment_path(comment), 
-          class: "btn btn-outline-dark me-2 my-2" %>
+<div class="comment">
+  <%= turbo_frame_tag dom_id(comment) do %>
+    <p>
+      <%= link_to comment.author_comment.decorate.capitalize_name, 
+        account_path(comment.author_comment) %>
+      &nbsp;&bull;&nbsp;
+      <time datetime="<%= comment.formatted_created_at %>">
+        <%= comment.formatted_created_at %>
+      </time>
+    </p>
+
+    <p><%= strip_tags comment.body %></p>
+    <div class="btn-group my-4" role="group">
+      <%= link_to t('submit.simple_edit'), edit_comment_path(comment), 
+          class: "btn btn-outline-dark me-2 btn-sm" if comment.author_comment == @account %>
+      <% if comment.author_comment == @account || @comment.commentable.group_creator == @account %>
+        <%= button_to t('submit.simple_delete'), comment_path(comment), method: :delete, 
+          class: "btn btn-outline-dark btn-sm", :onclick => "return confirm('Are you sure?')", 
+          :remote => true %>
       <% end %>
-      <%= button_to t('submit.simple_delete'), comment_path(comment), method: :delete, 
-        class: "btn btn-outline-dark me-2 my-2", :onclick => "return confirm('Are you sure?')", :remote => true %>
     </div>
   <% end %>
-</p>
+</div>
+          
