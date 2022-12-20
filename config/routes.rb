@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   devise_scope :user do  
     get 'sign_in', to: 'devise/sessions#new'
     get 'sign_up', to: 'devise/registrations#new'
-    get 'sign_out', to: 'devise/sessions#destroy'
+    delete 'sign_out', to: 'devise/sessions#destroy'
   end
 
   get 'about', to: 'static_pages#about'
@@ -18,8 +18,9 @@ Rails.application.routes.draw do
       resources :messages, only: %i[new create]
       resources :conversations, only: %i[index show destroy]
       resources :posts
-      resources :interests
+      resources :hobbies, except: %i[index]
       resources :invites, only: %i[create update]
+      resources :friendships, only: %i[destroy]
     end
   end
 
@@ -31,11 +32,11 @@ Rails.application.routes.draw do
 
   shallow do 
     resources :users do 
-      resource :account
+      resources :accounts
     end
     resources :accounts do   
-      resources :friendships, only: %i[index]
-      resources :groups
+      resources :friendships, only: %i[index destroy]
+      resources :groups    
     end
     resources :invites, except: %i[index show new create edit destroy] do 
       resources :friendships, except: %i[index new show update destroy edit]
@@ -43,7 +44,18 @@ Rails.application.routes.draw do
     resources :posts do
       resources :comments, except: %i[show index]
     end
+    resources :contents, except: %i[index show new create edit update destroy] do
+      resources :comments, except: %i[show index]
+    end
   end
 
-  get 'friendships/invites', to: 'friendships#invites', as: 'invites_page'
+  scope module: :groups do
+    resources :groups, shallow: true, except: %i[index show new create edit update destroy] do 
+      resources :hobbies, except: %i[show index]
+      resources :contents, except: %i[index]
+    end
+  end
+
+  get 'account/:id/your_groups', to: 'groups#your_groups', as: 'your_groups'
+  get 'account/:id/participation_groups', to: 'groups#participation_groups', as: 'participation_groups'
 end
