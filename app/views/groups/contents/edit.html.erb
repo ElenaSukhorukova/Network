@@ -1,0 +1,6 @@
+<%= turbo_frame_tag dom_id(@content) do %>
+  <article class='article'> 
+    <h4 class='mt-4 mb-2'><%= t('page.edit', model: i18n_model_name(@content)) %></h4>
+    <%= render partial: 'form', locals: { model: @content, method: :put, path: content_path(@content) } %>
+  </article>
+<% end %>

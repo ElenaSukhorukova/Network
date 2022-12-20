@@ -1,0 +1,30 @@
+<article class="article">
+  <p class="infopost">
+    <%= attribute_model(content, :account) %>
+    <%= link_to content.account.decorate.capitalize_name, account_path(content.account) %>
+    &nbsp;&bull;&nbsp;
+    <span class="me-4 date">
+      <time datetime="<%= content.created_at %>">
+        <%= content.formatted_created_at %>
+      </time>
+    <span>
+    <span class='mx-5'>
+      <% if content.comments.try(:any?) %>
+        <%= link_to(post_path(content, anchor: anchor(content)), class: "com") do %>
+          <%= i18n_model_name(Comment.new, count: 2) %>
+          <i class="bi bi-chat"><span><%= content.comments.count %></span></i>
+        <% end %>
+      <% end %>
+    </span>
+  </p>
+  <div class="clr"></div>
+  <div class="post_content">
+    <p>
+      <%= truncate strip_tags(content.body), length: 300, omission: '... (continued)' %>
+    </p>
+    <p class="spec" >
+      <%= link_to sanitize(t('link.show_post')), content_path(content), class: "rm" %>
+    </p>
+  </div>
+  <div class="clr"></div>
+</article>

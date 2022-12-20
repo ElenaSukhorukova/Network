@@ -1,0 +1,8 @@
+<%= turbo_frame_tag dom_id(@content) do %>
+  <article class="article">
+    <h4 class='mt-4 mb-2'><%= t('page.new', model: i18n_model_name(@content).downcase) %></h4>
+    
+    <%= render partial: 'shared/go_back_button', locals: { path: group_path(@group) } %>
+    <%= render partial: 'form',  locals: { model: [@group, @content], method: :post } %>
+  </article>
+<% end %>

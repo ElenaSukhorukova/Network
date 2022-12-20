@@ -1,0 +1,49 @@
+<% provide :page_title, i18n_model_name(@content)%>
+<% currently_at %>
+
+<article class='article'>
+  <%= turbo_frame_tag dom_id(@content) do %>
+    <%= render partial: 'shared/go_back_button', locals: { path: group_path(@group) } %>
+    <p class="infopost">
+      <%= attribute_model(@content, :account) %>
+      <%= link_to @content.account.decorate.capitalize_name, account_path(@content.account) %>
+      &nbsp;&bull;&nbsp;
+      <time datetime="<%= @content.formatted_created_at %>">
+        <%= @content.formatted_created_at %>
+      </time>
+    </p>
+    <p><%= strip_tags @content.body %></p>
+    <p>
+      <strong>
+        <% if @comments.try(:any?) %>
+          <%= link_to(content_path(@content,  anchor: anchor(@content))) do %>
+            <%= i18n_model_name(Comment.new, count: 2) %>(<%= @content.comments.count %>)
+          <% end %>
+        <% end %>
+      </strong>
+    </p>
+  <% end %>
+</artcile>
+
+<div class="btn-group my-4" role="group">
+  <%= link_to t('link.edit', model: i18n_model_name(@content).downcase), 
+      edit_content_path(@content), class: "btn btn-outline-dark btn-sm me-2" if @content.account == @account %>
+  <% if @content.account == @account || @group.group_creator == @account %>
+    <%= button_to t('submit.delete', model: i18n_model_name(@content).downcase), content_path(@content), 
+        method: :delete, class: "btn btn-outline-dark btn-sm me-2", 
+        :onclick => "return confirm('Are you sure?')", :remote => true %>
+  <% end %>
+</div>
+
+<%= render partial: "comments/form", locals: { model: [@content, Comment.new], method: :post } %>
+
+<section class='my-3'>
+  <% if @comments.try(:any?) %>
+    <h3 class='md-4'><%= i18n_model_name(Comment.new, count: 2) %></h3>
+    <div class="clr"></div>
+      <%= render partial: 'comments/comment', collection: @comments %>
+    <div class='my-2'>
+      <%== pagination(@pagy_comment) %>
+    </div>
+  <% end %>
+</section>
