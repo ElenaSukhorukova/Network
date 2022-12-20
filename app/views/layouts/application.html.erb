@@ -8,7 +8,7 @@
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= stylesheet_link_tag "custom", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "style", "data-turbo-track": "reload" %>
 
     <%= javascript_importmap_tags %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
@@ -17,37 +17,39 @@
   </head>
 
   <body>
-    <div class='wrapper'>
+    <div class='main'>
       <%= yield :main_menu %>
-      
-      <div class='container content'>
-        <div class='row row-cols-2'>
-        
-          <div class='col-3'>
-            <%= yield :right_menu %>
-          </div>
-
-          <div class='col-9'>
-            <main class='container mt-5 ms-5'>   
-              <% flash.each do |type, msg| %>    
-                <!-- Change flash messages of devise to bootstrap format -->
-                <% case type %>
-                  <% when 'alert'%>
-                    <% type = 'danger' %>
-                  <% when 'notice' %>
-                    <% type = 'success' %>
-                  <% end %>
-                          
-              <%= tag.div msg, class: "alert alert-#{type} text-center", role: 'alert' %>
+      <div  class="content">
+        <div class="content_resize">
+          <main class="mainbar">
+            <% flash.each do |type, msg| %>    
+              <!-- Change flash messages of devise to bootstrap format -->
+              <% case type %>
+              <% when 'alert'%>
+                <% type = 'danger' %>
+              <% when 'notice' %>
+                <% type = 'success' %>
               <% end %>
+                            
+              <%= tag.div msg, class: "alert alert-#{type} text-center", role: 'alert' %>
+            <% end %>
 
               <%= yield %>
-            </main>
-          </div>
+          </main>
+          <aside class="sidebar">
+  
+            <%= yield :right_menu %>
+            
+          </aside>
+          <div class="clr"></div>
         </div>
       </div>
-
-      <%= render 'layouts/footer' %>
+      <div class="fbg">
+        <%= render 'shared/fbg' %>
+      </div>
+      <div class="footer">
+        <%= render 'shared/footer' %>
+      </div>
     </div>
   </body>
 </html>
