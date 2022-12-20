@@ -22,12 +22,14 @@ en:
       group:
         one: 'Group'
         other: 'Groups'
-      interest: 
-        one: 'Interest'
-        other: 'Interests'
+      hobby: 
+        one: 'Hobby'
+        other: 'Hobbies'
       invite: 
         one: 'Invite'
         other: 'Invites'
+      content: 
+        one: 'Group content'
     attributes:
       user:
         confirmation_sent_at: 'Confirmation sent at'
@@ -70,13 +72,17 @@ en:
       message:
         body: 'Message'
         author: 'Author: '
-      interest: 
-        name_interest: 'Interest'
+      hobby: 
+        hobby_name: 'Hobby'
       group:
         name_group: "Group's name"
         description: "Group's description"
         creator: "Group's creator"
         participants: "Participants of the group"
+        visibility: 'Visibility'
+      content:
+        account: 'Author'
+        body: 'content'
   submit:
     create: "Create a new %{model}"
     edit: "Edit the %{model}"
@@ -86,33 +92,62 @@ en:
     simple_edit: 'Edit'
     simple_delete: 'Delete'
     send: "Send a %{model}"
+    friend: 'Not to be a friend'
   link:
     add_new: "Add a new %{model}"
+    add_new_plural: "Add new %{model}"
     edit: "Edit the %{model}"
-    show: "Show the %{model}"
+    show_post: "&raquo; Read more"
     fill_account: 'Fill account'
     message: 'Send a message'
     new_chat: "Create a chat with anyone"
+    become_participant: 'Become a participant'
   navbar:
     sign_in: 'Sign in'
     sign_up: 'Sign up'
     sign_out: 'Sign out'
-    abot: "About us"
+    about: "About us"
     rules: "Our rules"
-    conacts: "Our contacts"
-    profile: "Profile %{user}"
+    contacts: "Our contacts"
+    profile: "Profile of %{user}"
+    entrance: 'Enter'
+    sidebar: 'Sidebar'
+    menu: 'Menu'
   page:
+    about: 
+      title: 'About to'
+      paragraph: 'Utpote corpus cupressus. Votum neque turpis. Apostolus coniecto dolorum. Terreo alii conscendo. Sortitus atrox thermae. Vulpes capto dedecor. Derelinquo tametsi dolore. Trucido 
+totidem clam. Solus avarus impedit. Provident accusator sophismata. Animi quam claustrum. Autem depono officia. Ascit molestiae aufero. Et amo crustulum. Tabernus avaritia qui. Temptatio omnis aliqua. Deprecator commodo acer. Unus pecus venustas. Venustas tempore charisma. Et turpis apud. Universe acquiro architecto. Vulgivagus aut agnitio. Defaeco terebro comburo. Quidem vesper tepidus. Vulnus pecunia tripudio. Autus hic nisi. Vulgivagus ullam decet. Aequus curtus caput. Custodia nemo sunt. Temporibus urbanus verumtamen. Cupio sortitus accusantium. Soluta laborum curtus. Spectaculum articulus auditor. Amita aro confero. Defero supra audeo. Tego spargo caterva. Subnecto caelestis voluptas. Vos aeger antiquus. Unus delectus absconditus. Thema quis labore. Arx totam ubi. Sollers aperio enim. Vobis velit architecto.' 
     site_name: 'Network'
+    slogan: 'Audacia vinculum torqueo.'
     edit: "Edit the %{model}"
     new: "Add a new %{model}"
-    entrance: 'Enter your profile'
     telegram: "&#9990; @elenkasu"
+    roles:
+      title: 'Our roles'
+      paragrapg: "Utpote corpus cupressus. Votum neque turpis. Apostolus coniecto dolorum. Terreo alii conscendo. Sortitus atrox thermae. Vulpes capto dedecor. Derelinquo tametsi dolore. Trucido 
+totidem clam. Solus avarus impedit. Provident accusator sophismata. Animi quam claustrum. Autem depono officia. Ascit molestiae aufero. Et amo crustulum. Tabernus avaritia qui. Temptatio omnis aliqua. Deprecator commodo acer. Unus pecus venustas. Venustas tempore charisma. Et turpis apud. Universe acquiro architecto. Vulgivagus aut agnitio. Defaeco terebro comburo. Quidem vesper tepidus. Vulnus pecunia tripudio. Autus hic nisi. Vulgivagus ullam decet. Aequus curtus caput. Custodia nemo sunt. Temporibus urbanus verumtamen. Cupio sortitus accusantium. Soluta laborum curtus. Spectaculum articulus auditor. Amita aro confero. Defero supra audeo. Tego spargo caterva. Subnecto caelestis voluptas. Vos aeger antiquus. Unus delectus absconditus. Thema quis labore. Arx totam ubi. Sollers aperio enim. Vobis velit architecto."
+    contacts: 
+      contacts: 'Contact us'
+      company: 'Company name: '
+      address: 
+        attr_address: 'Address: '
+        address: 'Avenu street, 5, 26'
+        attr_post_code: "Post code: "
+        post_code: '123145'
+        attr_city: 'City: '
+        city: 'Boston'
+        attr_phone: 'Phone number: '
+        phone: '+955-555-66-77'
+        attr_email: 'Email: '
+        email: 'network@network.com'
     account:
       blank_account: "You don't have a filled account. Please, fill your account to see accounts other users."
       empty_profile: "Your account is empty. Please, fill it"
       index: 'You are the first who have made registration on our Social network. Please, invite your friends to chat with them here.'
       send_invite: 'Send an invite to became a friend'
       profile_of: "Profile of %{user}"
+      profile_closed: "Account's owner closed the account"
     conversation:
       blank: "You don't have any conversation yet!"
     friendship:
@@ -127,16 +162,26 @@ en:
         canceled: 'Invite was canceled. Send more time.'
         you_are_sender: 'You send invite to friend to: '
       users_invite:
-        not_confirmed: 'User have alredy sent invite, but it have not been confirmed yet.'
+        not_confirmed: 'User have alredy sent invite to friend, but it have not been confirmed yet.'
         sender: 'You have an invite to friend from '
         canceled: "You canceled the invite."
+        accept: 'Accept the invite'
     message:
       chat: "A chat with "
     group:
       created: "My created groups"
-      participant: "I am a participant in groups"
+      participant: "I'm a participant"
       not_created: 'You have note created groups yet'
       not_participants: 'Group has not participants yet'
+      all_grops: 'All groups'
+      your_groups: 'Your groups'
+      participation_groups: 'Participation in groups'
+      not_any_group: 'There is not any group yet. You can create the first.'
+      participations: 'Participations'
+    post:
+      blank: 'Here it is not any post'
+    content:
+      blank: 'Here it is not any content'
   flash:
     new: "The %{model} was saved successfully"
     update: "The %{model} was updated successfully"
@@ -145,6 +190,7 @@ en:
     accept: "The offer of %{model} was accepted"
     cancel: "The %{model} was canceled successfully"
     fill_account: "You should fill your profile to look at another profile"
+    friend_canceled: 'You are not a friend with %{username}'
   devise:
     confirmations:
       confirmed: 'Your email address has been successfully confirmed.'
