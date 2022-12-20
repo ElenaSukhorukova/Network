@@ -1,8 +1,8 @@
 <% provide :page_title, t("devise.registrations.new.sign_up") %>
 <% currently_at t("navbar.sign_up") %>
 
-<h1 class='md-4'><%= t("devise.registrations.new.sign_up") %></h1>
-<div class='col-sm-5'>
+<article class="article">
+  <h2 class='mt-4 mb-2'><%= t("devise.registrations.new.sign_up") %></h2>
   <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name), data: { turbo: false } ) do |f| %>
     <%= f.input :email, autofocus: true, input_html: { autocomplete: "email", class: 'mb-2' } %>
     <% if @minimum_password_length %>
@@ -11,10 +11,11 @@
     <%= f.input :password, input_html: { autocomplete: "new-password", class: 'mb-2' } %>
     <%= f.input :password_confirmation, input_html: { autocomplete: "new-password", class: 'mb-2'} %>
 
-    <div class="actions mt-2 mb-2">
-    <%= f.button :submit, t("devise.registrations.new.sign_up"), class: "btn btn-primary mt-2" %>
+    <div class="actions my-2">
+    <%= f.button :submit, t("devise.registrations.new.sign_up"), 
+        class: "btn btn-outline-dark my-2 btn-sm"  %>
     </div>
   <% end %>
 
   <%= render "devise/shared/links" %>
-</div>
+</article>
