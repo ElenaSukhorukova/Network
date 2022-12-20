@@ -1,31 +1,35 @@
- <section>
-  <% provide :page_title, i18n_model_name(@conversations, count: 2) %>
-  <% currently_at i18n_model_name(@conversations, count: 2) %>
-  <h1 class='md-4'><%= i18n_model_name(@conversations, count: 2) %></h1>
-
+<% provide :page_title, i18n_model_name(@conversations, count: 2) %>
+<% currently_at i18n_model_name(@conversations, count: 2) %>
+<article class='article'>
+  <h2  class='mt-4 mb-2'><%= i18n_model_name(@conversations, count: 2) %></h2>
+  <div class="clr"></div>
   <% if @conversations.try(:any?) %>
     <div class='row row-cols-2'>
-      <section class='col-3 card'>
-        <%= render partial: 'conversation', collection: @conversations %>
+      <section class='col-3'>
+        <%= render @conversations %>
+        <div class='my-2'>
+          <%== pagination(@pagy) %>
+        </div>
       </section>
       <section class='col-9'>
         <% if @conversation.present? %> 
-          <h3 class='md-4'>
+          <h4 class='mt-4 mb-2'>
             <%= t('page.message.chat') %>
-            <%= link_to interlocutor(@conversation).user_name, 
-              account_path(interlocutor(@conversation)), class: 'link mx-2' %>
-          </h3>
+            <%= link_to find_interlocutor(@conversation).decorate.capitalize_name, 
+                account_path(find_interlocutor(@conversation)) %>
+          </h4>
           <% if @messages.try(:any?) %>
-            <%= render partial: 'accounts/messages/message', collection: @messages %>
+            <div class='scroll'>
+              <%= render partial: 'messages/message', collection: @messages %>
+            </div>
           <% end %>
-          <section class='container mt-5' style='align-items:center'>
-          <%= render partial: "accounts/messages/form", locals: { model: [@conversation, @message], 
-            method: :post, submit: t('submit.send', model: i18n_model_name(@message).downcase) } %>
-            </section>
+          <section class='container mt-5'>
+            <%= render partial: "messages/form", locals: { model: [@conversation, @message], method: :post } %>
+          </section>
         <% end %>
       </section>
     </div>
-  <%else %>
+  <% else %>
     <%= render 'accounts/conversations/empty_state' %> 
   <% end %>
-</section>
+</article>
