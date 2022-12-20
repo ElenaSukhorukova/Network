@@ -1,6 +1,6 @@
 require "test_helper"
 
-class InterestTest < ActiveSupport::TestCase
+class AccountHobbyTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
