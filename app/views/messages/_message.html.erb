@@ -1,0 +1,22 @@
+<% person = message.sender_message_id == @sender.id ? [@sender, 'You', 'sender'] : 
+  [@recipient, @recipient.user_name, 'recipient'] %>
+<section class="card <%= person[2] %> mt-2">
+  <%= turbo_frame_tag dom_id(message) do %>
+    <div class='card-body'>
+      <p class="infopost">
+        <%= attribute_model(message, :author) %>
+        <%= link_to person[1], account_path(person[0]) %>
+        &bull;
+        <span class="me-4 date">
+          <time datetime="<%= message.created_at %>">
+            <%= message.formatted_created_at %>
+          </time>
+        <span>
+      </p>
+      <p class='card-text'>
+        <%= strip_tags message.body %>
+      </p>
+        <%= render partial: "messages/sender_buttons", locals: { message: message } if person[0] == @sender %>
+    </div>
+  <% end %>
+</section>

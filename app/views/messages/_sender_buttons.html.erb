@@ -1,0 +1,12 @@
+<div class="btn-group" role="group">
+  <%= link_to(edit_message_path(message), role: 'button', method: :get, 
+      class: "btn btn-outline-dark btn-sm profile me-1",
+      title: t('submit.edit', model: i18n_model_name(message).downcase)) do %>
+      <i class="bi bi-pencil-fill"></i>
+  <% end %>
+  <%= button_to(message_path(message), method: :delete, :onclick => "return confirm('Are you sure?')", 
+    :remote => true, title: t('submit.delete', model: i18n_model_name(message).downcase),
+    class: "btn btn-outline-dark btn-sm profile me-1") do %>
+    <i class="bi bi-trash3-fill"></i>
+  <% end %>
+</div>
