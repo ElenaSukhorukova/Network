@@ -1,27 +1,28 @@
 class Accounts::ConversationsController < ApplicationController
   before_action :authenticate_user!
   before_action :define_account!
-  include FindInterlocutorHelper
+  include ConversationsHelper
 
   def index
-    @conversations = Conversation.account_conversations(@account.id)
+    @pagy, @conversations = pagy Conversation.account_conversations(@account), items: 11
   end
 
   def show
-    @conversations = Conversation.account_conversations(@account.id)
-    @conversation = Conversation.find(params[:id])
+    @pagy, @conversations = pagy Conversation.account_conversations(@account), items: 11
+    @conversation = Conversation.find params[:id]
 
-    @messages = @conversation.messages.order(created_at: :asc)
+    @messages = @conversation.messages.order(:created_at)
+    @messages = @messages.decorate
     @message = @conversation.messages.build
 
-    @sender = @account
-    @recipient = find_interlocutor(@sender.id, @conversation)
+    @recipient = find_interlocutor(@conversation).decorate
+    @sender = @account.decorate
     render 'index'
   end
 
   private
 
   def define_account!
-    @account = Account.find_by(user_id: current_user.id)
+    @account = Account.find params[:account_id]
   end
 end
