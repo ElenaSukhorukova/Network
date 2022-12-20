@@ -10,17 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_01_110615) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_20_075430) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "account_interests", force: :cascade do |t|
+  create_table "account_hobbies", force: :cascade do |t|
     t.bigint "account_id"
-    t.bigint "interest_id"
+    t.bigint "hobby_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_account_interests_on_account_id"
-    t.index ["interest_id"], name: "index_account_interests_on_interest_id"
+    t.index ["account_id"], name: "index_account_hobbies_on_account_id"
+    t.index ["hobby_id"], name: "index_account_hobbies_on_hobby_id"
   end
 
   create_table "accounts", force: :cascade do |t|
@@ -48,6 +48,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_110615) do
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
   end
 
+  create_table "contents", force: :cascade do |t|
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "group_id"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_contents_on_account_id"
+    t.index ["group_id"], name: "index_contents_on_group_id"
+  end
+
   create_table "conversations", force: :cascade do |t|
     t.bigint "f_partner_conversation_id"
     t.bigint "s_partner_conversation_id"
@@ -68,13 +78,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_110615) do
     t.index ["s_partner_friendship_id"], name: "index_friendships_on_s_partner_friendship_id"
   end
 
-  create_table "group_interests", force: :cascade do |t|
+  create_table "group_hobbies", force: :cascade do |t|
     t.bigint "group_id"
-    t.bigint "interest_id"
+    t.bigint "hobby_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["group_id"], name: "index_group_interests_on_group_id"
-    t.index ["interest_id"], name: "index_group_interests_on_interest_id"
+    t.index ["group_id"], name: "index_group_hobbies_on_group_id"
+    t.index ["hobby_id"], name: "index_group_hobbies_on_hobby_id"
   end
 
   create_table "group_participants", force: :cascade do |t|
@@ -96,8 +106,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_110615) do
     t.index ["group_creator_id"], name: "index_groups_on_group_creator_id"
   end
 
-  create_table "interests", force: :cascade do |t|
-    t.string "name_interest"
+  create_table "hobbies", force: :cascade do |t|
+    t.string "hobby_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -128,7 +138,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_110615) do
   create_table "posts", force: :cascade do |t|
     t.text "body"
     t.bigint "author_post_id"
-    t.string "place"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["author_post_id"], name: "index_posts_on_author_post_id"
@@ -147,6 +156,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_01_110615) do
   end
 
   add_foreign_key "comments", "accounts", column: "author_comment_id"
+  add_foreign_key "contents", "accounts"
+  add_foreign_key "contents", "groups"
   add_foreign_key "conversations", "accounts", column: "f_partner_conversation_id"
   add_foreign_key "conversations", "accounts", column: "s_partner_conversation_id"
   add_foreign_key "friendships", "accounts", column: "f_partner_friendship_id"
