@@ -1,5 +1,0 @@
-<%= simple_form_for model, method: method do |f| %>
-	<%= f.input :name_interest %><br />
-	<%= f.button :submit, submit, class: "btn btn-outline-dark" %>
-	<%= render partial: 'shared/cancel_button', locals: { path: path } if f.object.persisted? %>	
-<% end %>
