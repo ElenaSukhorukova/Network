@@ -1,8 +1,7 @@
-<section class='post'>
   <% provide :page_title, t('page.edit', model: i18n_model_name(@post)) %>
   <% currently_at %>
 
-  <h1 class='md-4'><%= t('page.edit', model: i18n_model_name(@post)) %></h1>
-  <%= render partial: 'form', locals: { model: @post, method: :put, submit: t('submit.edit', 
-    model: i18n_model_name(@post).downcase), place: @post.place, path: post_path(@post) } %>
-</section>
+<article class='article'> 
+  <h2 class='mt-4 mb-2'><%= t('page.edit', model: i18n_model_name(@post)) %></h2>
+  <%= render partial: 'form', locals: { model: @post, method: :put, path: post_path(@post) } %>
+</article>

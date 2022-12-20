@@ -1,14 +1,16 @@
-<section class='post'>
-  <% provide :page_title, i18n_model_name(@posts, count: 2) %>
-  <% currently_at i18n_model_name(@posts, count: 2) %>
+<% provide :page_title, i18n_model_name(Post.new, count: 2) %>
+<% currently_at t("page.site_name") %>
 
-  <h1 class='md-4'><%= i18n_model_name(@posts, count: 2) %></h1>
+<article class='article'>
   <%= link_to t('link.add_new', model: i18n_model_name(Post.new).downcase), new_post_path, 
-    class: "btn btn-outline-dark my-4" if current_user && current_user.account %>
+    class: "btn btn-outline-dark btn-sm my-4" if current_user && current_user.account %>
 
   <% if @posts.try(:any?) %>
-    <%= render partial: "posts/post", collection: @posts %>
+    <%= render @posts %>
+    <div class='my-2'>
+      <%== pagination(@pagy_post) %>
+    </div>
   <% else %>
-    <p><%= t('page.account.index') %></p>
+    <p><%= t('page.post.blank') %></p>
   <% end %>
-</section>
+</artcile>

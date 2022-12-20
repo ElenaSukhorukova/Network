@@ -1,0 +1,12 @@
+ <%= turbo_frame_tag dom_id(@post) do %>
+  <%= link_to t('link.add_new', model: i18n_model_name(@post).downcase), new_account_post_path(@account), 
+      class: "btn btn-outline-dark my-3 btn-sm"  if current_user == @account.user %>
+<% end %>
+<% if @posts.try(:any?) %>
+  <h3 class='mt-4 mb-2'><%= i18n_model_name(Post.new, count: 2) %></h3> 
+  <%= render @posts %>
+<% end %>
+
+<div class='my-2'>
+  <%== pagination(@pagy_post) %>
+</div>
