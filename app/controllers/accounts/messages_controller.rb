@@ -7,12 +7,12 @@ class Accounts::MessagesController < ApplicationController
   end
 
   def create
-    @conversation = Conversation.new_conv(@sender.id, @recipient.id)
-    @conversation.save
-    @message = @conversation.messages.build(message_params)
+    @conversation = Conversation.new_conv @sender, @recipient
+    @conversation.save if @conversation.new_record?
+    @message = @conversation.messages.build message_params
 
-    @message.sender_message_id = @sender.id
-    @message.recipient_message_id = @recipient.id
+    @message.sender_message = @sender
+    @message.recipient_message = @recipient
 
     if @message.save
       redirect_to account_path(@recipient),
@@ -26,12 +26,12 @@ class Accounts::MessagesController < ApplicationController
 
   private
   
-    def define_interlocutors!
-      @sender = current_user.account
-      @recipient = Account.find(params[:account_id])
-    end
+  def define_interlocutors!
+    @sender = current_user.account
+    @recipient = Account.find params[:account_id]
+  end
 
-    def message_params
-      params.require(:message).permit(:body, :read)
-    end
+  def message_params
+    params.require(:message).permit(:body, :read)
+  end
 end
