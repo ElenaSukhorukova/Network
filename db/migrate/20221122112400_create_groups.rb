@@ -4,7 +4,7 @@ class CreateGroups < ActiveRecord::Migration[7.0]
       t.string :name_grou
       t.text :description
       t.string :visibility
-      
+
       t.timestamps
     end
   end

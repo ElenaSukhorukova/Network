@@ -10,12 +10,12 @@ class Accounts::HobbiesController < ApplicationController
     @hobby = Hobby.new_hobby hobby_params
     if @hobby.save
       @account.hobbies << @hobby unless @account.hobbies.find_by(hobby_name: @hobby.hobby_name)
-      
+
       redirect_to account_path(@account),
-        success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
+                  success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
     else
       redirect_to account_path(@account),
-      danger: "#{@hobby.errors.full_messages.each{|error| error.capitalize}.join(' ')}"
+                  danger: "#{@hobby.errors.full_messages.each { |error| error.capitalize }.join(' ')}"
     end
   end
 

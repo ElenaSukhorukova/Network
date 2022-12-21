@@ -29,41 +29,40 @@ class GroupsController < ApplicationController
     @group = @account.groups.build
     3.times { @group.hobbies.build }
   end
-  
+
+  def edit; end
+
   def create
     @group = @account.groups.build group_params
     if @group.save
-      redirect_to group_path(@group), 
-      success: I18n.t('flash.new', model: i18n_model_name(@group).downcase)
-    else 
+      redirect_to group_path(@group),
+                  success: I18n.t('flash.new', model: i18n_model_name(@group).downcase)
+    else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-  end
-
   def update
-    if @group.group_creator == current_user.account
-      if @group.update(group_params)
-        redirect_to  group_path(@group),
-          success: I18n.t('flash.update', model: i18n_model_name(@group).downcase)
-      else 
-        render :new, status: :unprocessable_entity
-      end
+    return unless @group.group_creator == current_user.account
+
+    if @group.update(group_params)
+      redirect_to  group_path(@group),
+                   success: I18n.t('flash.update', model: i18n_model_name(@group).downcase)
+    else
+      render :new, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if @group.group_creator == current_user.account
-      if @group.destroy
-        redirect_to account_groups_path(current_user.account), 
-          success: I18n.t('flash.destroy', model: i18n_model_name(@group).downcase)
-      end
-    end
+    return unless @group.group_creator == current_user.account
+    return unless @group.destroy
+
+    redirect_to account_groups_path(current_user.account),
+                success: I18n.t('flash.destroy', model: i18n_model_name(@group).downcase)
   end
 
-  private   
+  private
+
   def define_account!
     @account = Account.find_by user_id: current_user.id
   end
@@ -80,6 +79,6 @@ class GroupsController < ApplicationController
 
   def group_params
     params.require(:group).permit(:name_group, :description, :visibility,
-                                  hobbies_attributes: [:id, :hobby_name, :_destroy])
-   end
+                                  hobbies_attributes: %i[id hobby_name _destroy])
+  end
 end

@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  devise_scope :user do  
+  devise_scope :user do
     get 'sign_in', to: 'devise/sessions#new'
     get 'sign_up', to: 'devise/registrations#new'
     delete 'sign_out', to: 'devise/sessions#destroy'
@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   get 'rules', to: 'static_pages#rules'
   get 'contacts', to: 'static_pages#contacts'
 
-  root to: "posts#index"
-  
+  root to: 'posts#index'
+
   scope module: :accounts do
     resources :accounts, except: %i[index show new create edit update destroy] do
       resources :messages, only: %i[new create]
@@ -30,15 +30,15 @@ Rails.application.routes.draw do
     end
   end
 
-  shallow do 
-    resources :users do 
+  shallow do
+    resources :users do
       resources :accounts
     end
-    resources :accounts do   
+    resources :accounts do
       resources :friendships, only: %i[index destroy]
-      resources :groups    
+      resources :groups
     end
-    resources :invites, except: %i[index show new create edit destroy] do 
+    resources :invites, except: %i[index show new create edit destroy] do
       resources :friendships, except: %i[index new show update destroy edit]
     end
     resources :posts do
@@ -50,7 +50,7 @@ Rails.application.routes.draw do
   end
 
   scope module: :groups do
-    resources :groups, shallow: true, except: %i[index show new create edit update destroy] do 
+    resources :groups, shallow: true, except: %i[index show new create edit update destroy] do
       resources :hobbies, except: %i[show index]
       resources :contents, except: %i[index]
     end

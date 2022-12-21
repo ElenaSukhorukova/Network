@@ -26,18 +26,24 @@ module ApplicationHelper
   def nav_tab(title, url, options = {})
     current_page = options.delete :current_page
     css_text = current_page == title ? 'title' : ''
-    options[:class] = options[:class] ? (options[:class] + ' ' + css_text) : 
-                                        css_text
-    
+    options[:class] = if options[:class]
+                        (options[:class] + ' ' + css_text)
+                      else
+                        css_text
+                      end
+
     link_to title, url, options
   end
 
   def nav_tab_right(title, url, options = {})
     current_page = options.delete :current_page
     css_text = current_page == title ? 'wheat' : ''
-    options[:class] = options[:class] ? (options[:class] + ' ' + css_text) : 
-                                        css_text
-    
+    options[:class] = if options[:class]
+                        (options[:class] + ' ' + css_text)
+                      else
+                        css_text
+                      end
+
     link_to title, url, options
   end
 end

@@ -4,23 +4,23 @@ class Accounts::InvitesController < ApplicationController
   before_action :define_accounts!
 
   def create
-    unless check_invite?(@sender.id, @receiver.id)
-      @invite = Invite.new sender_invite_id: @sender.id, receiver_invite_id: @receiver.id
+    return if check_invite?(@sender.id, @receiver.id)
 
-      if @invite.save
-        redirect_to account_path(@receiver),
-          success: I18n.t('flash.send', model: i18n_model_name(@invite).downcase)
-      end
-    end
+    @invite = Invite.new sender_invite_id: @sender.id, receiver_invite_id: @receiver.id
+
+    return unless @invite.save
+
+    redirect_to account_path(@receiver),
+                success: I18n.t('flash.send', model: i18n_model_name(@invite).downcase)
   end
 
   def update
     @invite = Invite.find params[:id]
-    @account = Account.find params[:account_id] 
-    if @invite.update invite_params
-      redirect_to account_path(@account),
-      success: I18n.t('flash.cancel', model: i18n_model_name(@invite).downcase)
-    end
+    @account = Account.find params[:account_id]
+    return unless @invite.update invite_params
+
+    redirect_to account_path(@account),
+                success: I18n.t('flash.cancel', model: i18n_model_name(@invite).downcase)
   end
 
   private

@@ -11,10 +11,10 @@ class Groups::HobbiesController < ApplicationController
     if @hobby.save
       @group.hobbies << @hobby unless @group.hobbies.find_by(hobby_name: @hobby.hobby_name)
       redirect_to group_path(@group),
-        success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
+                  success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
     else
       redirect_to group_path(@group),
-      danger: "#{@hobby.errors.full_messages.each{|error| error.capitalize}.join(' ')}"
+                  danger: "#{@hobby.errors.full_messages.each { |error| error.capitalize }.join(' ')}"
     end
   end
 

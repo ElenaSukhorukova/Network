@@ -10,44 +10,43 @@ class Groups::ContentsController < ApplicationController
     @comments = @comments.decorate
   end
 
-  def new 
+  def new
     @content = @group.contents.build
   end
+
+  def edit; end
 
   def create
     @content = @group.contents.build content_params
     @content.account = @account
     if @content.save
-      redirect_to content_path(@content), 
-        success: I18n.t('flash.new', model: i18n_model_name(@content).downcase)
+      redirect_to content_path(@content),
+                  success: I18n.t('flash.new', model: i18n_model_name(@content).downcase)
     else
       render :new, status: :unprocessable_entity
     end
   end
 
-  def edit
-  end
-
   def update
-    if @account == @content.account
-      if @content.update content_params
-        redirect_to content_path(@content),
-          success: I18n.t('flash.update', model: i18n_model_name(@content).downcase)
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    return unless @account == @content.account
+
+    if @content.update content_params
+      redirect_to content_path(@content),
+                  success: I18n.t('flash.update', model: i18n_model_name(@content).downcase)
+    else
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if @content.destroy
-      redirect_to group_path(@group), 
-        success: I18n.t('flash.destroy', model: i18n_model_name(@content).downcase)
-    end
+    return unless @content.destroy
+
+    redirect_to group_path(@group),
+                success: I18n.t('flash.destroy', model: i18n_model_name(@content).downcase)
   end
 
   private
-  
+
   def define_content!
     @content = Content.find(params[:id]).decorate
   end
@@ -55,7 +54,7 @@ class Groups::ContentsController < ApplicationController
   def define_group!
     @group = Group.find params[:group_id]
   end
-  
+
   def define_account!
     @account = Account.find_by user_id: current_user.id
   end
