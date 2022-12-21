@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FriendshipsHelper
   def find_friendship(sender, recipient)
     friendship = Friendship.find_by(f_partner_friendship: sender, s_partner_friendship: recipient) ||

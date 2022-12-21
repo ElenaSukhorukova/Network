@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Hobby < ApplicationRecord
   validates :hobby_name, presence: true, length: { within: 3..50 }
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PostDecorator < ApplicationDecorator
   delegate_all
   decorates_finders

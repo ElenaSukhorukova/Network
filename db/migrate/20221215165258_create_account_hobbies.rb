@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateAccountHobbies < ActiveRecord::Migration[7.0]
   def change
     create_table :account_hobbies do |t|

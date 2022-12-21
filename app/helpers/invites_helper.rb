@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module InvitesHelper
   def find_account_name(invite)
     account = if invite.sender_invite == current_user.account

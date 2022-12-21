@@ -1,28 +1,32 @@
-class Accounts::ConversationsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :define_account!
-  include ConversationsHelper
+# frozen_string_literal: true
 
-  def index
-    @pagy, @conversations = pagy Conversation.account_conversations(@account), items: 11
-  end
+module Accounts
+  class ConversationsController < ApplicationController
+    before_action :authenticate_user!
+    before_action :define_account!
+    include ConversationsHelper
 
-  def show
-    @pagy, @conversations = pagy Conversation.account_conversations(@account), items: 11
-    @conversation = Conversation.find params[:id]
+    def index
+      @pagy, @conversations = pagy Conversation.account_conversations(@account), items: 11
+    end
 
-    @messages = @conversation.messages.order(:created_at)
-    @messages = @messages.decorate
-    @message = @conversation.messages.build
+    def show
+      @pagy, @conversations = pagy Conversation.account_conversations(@account), items: 11
+      @conversation = Conversation.find params[:id]
 
-    @recipient = find_interlocutor(@conversation).decorate
-    @sender = @account.decorate
-    render 'index'
-  end
+      @messages = @conversation.messages.order(:created_at)
+      @messages = @messages.decorate
+      @message = @conversation.messages.build
 
-  private
+      @recipient = find_interlocutor(@conversation).decorate
+      @sender = @account.decorate
+      render 'index'
+    end
 
-  def define_account!
-    @account = Account.find params[:account_id]
+    private
+
+    def define_account!
+      @account = Account.find params[:account_id]
+    end
   end
 end

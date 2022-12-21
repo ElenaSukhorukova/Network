@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 (60 - User.count).times do |index|
   email = "email#{index + User.count + 1}@email.com"
   password = 'test123'

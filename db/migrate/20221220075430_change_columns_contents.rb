@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ChangeColumnsContents < ActiveRecord::Migration[7.0]
   def change
     remove_reference :contents, :groups, foreign_key: true

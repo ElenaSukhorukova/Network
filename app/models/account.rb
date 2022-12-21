@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class Account < ApplicationRecord
   include Country
 
-  VALID_GENDERS = %w[Female Male Other]
-  STATES = %w[online ofline]
-  VALID_VISIBILITY = %w[everybody friends nobody]
+  VALID_GENDERS = %w[Female Male Other].freeze
+  STATES = %w[online ofline].freeze
+  VALID_VISIBILITY = %w[everybody friends nobody].freeze
 
   validates :user_name, presence: true, length: { within: 2..50 }
   validates :country, :gender, :date_birthday, presence: true

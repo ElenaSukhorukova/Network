@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Group < ApplicationRecord
-  VALID_VISIBILITY = %w[everybody participants]
+  VALID_VISIBILITY = %w[everybody participants].freeze
 
   validates :name_group, presence: true, uniqueness: true, length: { within: 2..50 }
   validates :description, presence: true, length: { minimum: 2 }

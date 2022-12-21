@@ -1,4 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class Groups::GroupsContentDecoratorTest < Draper::TestCase
+module Groups
+  class GroupsContentDecoratorTest < Draper::TestCase
+  end
 end

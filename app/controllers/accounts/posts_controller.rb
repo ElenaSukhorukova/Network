@@ -1,41 +1,45 @@
-class Accounts::PostsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :define_account!
-  before_action :define_post!, except: %i[index new create]
+# frozen_string_literal: true
 
-  def new
-    @post = @account.posts.build
-  end
+module Accounts
+  class PostsController < ApplicationController
+    before_action :authenticate_user!
+    before_action :define_account!
+    before_action :define_post!, except: %i[index new create]
 
-  def create
-    @post = @account.posts.build post_params
-
-    if @post.save
-      redirect_to account_path(@account),
-                  success: I18n.t('flash.new', model: i18n_model_name(@post).downcase)
-    else
-      render :new, status: :unprocessable_entity
+    def new
+      @post = @account.posts.build
     end
-  end
 
-  def destroy
-    return unless @post.destroy
+    def create
+      @post = @account.posts.build post_params
 
-    redirect_to account_path(@account),
-                success: I18n.t('flash.destroy', model: i18n_model_name(@post).downcase)
-  end
+      if @post.save
+        redirect_to account_path(@account),
+                    success: I18n.t('flash.new', model: i18n_model_name(@post).downcase)
+      else
+        render :new, status: :unprocessable_entity
+      end
+    end
 
-  private
+    def destroy
+      return unless @post.destroy
 
-  def define_post!
-    @post = Post.find params[:id]
-  end
+      redirect_to account_path(@account),
+                  success: I18n.t('flash.destroy', model: i18n_model_name(@post).downcase)
+    end
 
-  def define_account!
-    @account = Account.find params[:account_id]
-  end
+    private
 
-  def post_params
-    params.require(:post).permit(:body)
+    def define_post!
+      @post = Post.find params[:id]
+    end
+
+    def define_account!
+      @account = Account.find params[:account_id]
+    end
+
+    def post_params
+      params.require(:post).permit(:body)
+    end
   end
 end

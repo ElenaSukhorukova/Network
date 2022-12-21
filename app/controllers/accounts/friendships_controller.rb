@@ -1,17 +1,21 @@
-class Accounts::FriendshipsController < ApplicationController
-  include DeleteInvite
-  before_action :authenticate_user!
-  after_action :delete_invite
+# frozen_string_literal: true
 
-  def destroy
-    @account = Account.find params[:account_id]
-    @account = @account.decorate
-    @friendship = Friendship.find params[:id]
+module Accounts
+  class FriendshipsController < ApplicationController
+    include DeleteInvite
+    before_action :authenticate_user!
+    after_action :delete_invite
 
-    return unless @friendship.destroy
+    def destroy
+      @account = Account.find params[:account_id]
+      @account = @account.decorate
+      @friendship = Friendship.find params[:id]
 
-    @friendship.invite.destroy
-    redirect_to account_path(@account),
-                success: I18n.t('flash.friend_canceled', username: @account.capitalize_name)
+      return unless @friendship.destroy
+
+      @friendship.invite.destroy
+      redirect_to account_path(@account),
+                  success: I18n.t('flash.friend_canceled', username: @account.capitalize_name)
+    end
   end
 end

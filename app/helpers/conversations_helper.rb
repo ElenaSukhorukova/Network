@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ConversationsHelper
   def find_interlocutor(conversation)
     if conversation.f_partner_conversation == current_user.account

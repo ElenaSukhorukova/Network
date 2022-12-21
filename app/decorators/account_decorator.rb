@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class AccountDecorator < ApplicationDecorator
   delegate_all
   decorates_finders
 
   def capitalize_name
-    user_name.split(' ').map(&:capitalize).join(' ')
+    user_name.split.map(&:capitalize).join(' ')
   end
 
   def decorate_date_birthday

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Invite < ApplicationRecord
-  VALID_CONFIRMED = %w[not yes canceled]
+  VALID_CONFIRMED = %w[not yes canceled].freeze
   validates :confirmed, inclusion: { in: VALID_CONFIRMED }
 
   has_one :friendship

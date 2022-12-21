@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MessageDecorator < ApplicationDecorator
   delegate_all
   decorates_finders

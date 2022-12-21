@@ -1,30 +1,34 @@
-class Groups::HobbiesController < ApplicationController
-  before_action :authenticate_user!
-  before_action :define_group!
+# frozen_string_literal: true
 
-  def new
-    @hobby = Hobby.new
-  end
+module Groups
+  class HobbiesController < ApplicationController
+    before_action :authenticate_user!
+    before_action :define_group!
 
-  def create
-    @hobby = Hobby.new_hobby hobby_params
-    if @hobby.save
-      @group.hobbies << @hobby unless @group.hobbies.find_by(hobby_name: @hobby.hobby_name)
-      redirect_to group_path(@group),
-                  success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
-    else
-      redirect_to group_path(@group),
-                  danger: "#{@hobby.errors.full_messages.each { |error| error.capitalize }.join(' ')}"
+    def new
+      @hobby = Hobby.new
     end
-  end
 
-  private
+    def create
+      @hobby = Hobby.new_hobby hobby_params
+      if @hobby.save
+        @group.hobbies << @hobby unless @group.hobbies.find_by(hobby_name: @hobby.hobby_name)
+        redirect_to group_path(@group),
+                    success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
+      else
+        redirect_to group_path(@group),
+                    danger: @hobby.errors.full_messages.each(&:capitalize).join(' ').to_s
+      end
+    end
 
-  def define_group!
-    @group = Group.find params[:group_id]
-  end
+    private
 
-  def hobby_params
-    params.require(:hobby).permit(:hobby_name)
+    def define_group!
+      @group = Group.find params[:group_id]
+    end
+
+    def hobby_params
+      params.require(:hobby).permit(:hobby_name)
+    end
   end
 end
