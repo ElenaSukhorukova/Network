@@ -1,35 +1,32 @@
 # frozen_string_literal: true
 
-module Accounts
-  class HobbiesController < ApplicationController
-    before_action :authenticate_user!
-    before_action :define_account!
+class Accounts::HobbiesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :define_account!
+  include HobbyAdd
 
-    def new
-      @hobby = Hobby.new
+  def new
+    @hobby = Hobby.new
+  end
+
+  def create
+    @hobby = Hobby.new_hobby hobby_params
+    path = account_path(@account)
+    if @hobby.save
+      hobby_add(@account, @hobby)
+
+      return redirect_to path, success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
     end
+    redirect_to path, danger: @hobby.errors.full_messages.each(&:capitalize).join(' ').to_s
+  end
 
-    def create
-      @hobby = Hobby.new_hobby hobby_params
-      if @hobby.save
-        @account.hobbies << @hobby unless @account.hobbies.find_by(hobby_name: @hobby.hobby_name)
+  private
 
-        redirect_to account_path(@account),
-                    success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
-      else
-        redirect_to account_path(@account),
-                    danger: @hobby.errors.full_messages.each(&:capitalize).join(' ').to_s
-      end
-    end
+  def define_account!
+    @account = current_user.account
+  end
 
-    private
-
-    def define_account!
-      @account = Account.find_by user_id: current_user.id
-    end
-
-    def hobby_params
-      params.require(:hobby).permit(:hobby_name)
-    end
+  def hobby_params
+    params.require(:hobby).permit(:hobby_name)
   end
 end

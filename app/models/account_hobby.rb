@@ -3,4 +3,5 @@
 class AccountHobby < ApplicationRecord
   belongs_to :account
   belongs_to :hobby
+  # accepts_nested_attributes_for :hobby, allow_destroy: true
 end

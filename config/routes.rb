@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
+
 Rails.application.routes.draw do
   devise_for :users
 
@@ -16,14 +18,13 @@ Rails.application.routes.draw do
   root to: 'posts#index'
 
   scope module: :accounts do
-    resources :accounts, except: %i[index show new create edit update destroy] do
+    resources :accounts, shallow: true, except: %i[index show new create edit update destroy] do
+      resources :friendships, only: %i[destroy]
       resources :messages, only: %i[new create]
       resources :conversations, only: %i[index show destroy]
-      resources :posts
-      resources :hobbies, except: %i[index]
       resources :invites, only: %i[create update]
-      resources :friendships, only: %i[destroy]
     end
+    resources :hobbies, only: %i[new create], as: 'account_hobbies'
   end
 
   scope module: :conversations do
@@ -33,9 +34,6 @@ Rails.application.routes.draw do
   end
 
   shallow do
-    resources :users do
-      resources :accounts
-    end
     resources :accounts do
       resources :friendships, only: %i[index destroy]
       resources :groups
@@ -61,3 +59,4 @@ Rails.application.routes.draw do
   get 'account/:id/your_groups', to: 'groups#your_groups', as: 'your_groups'
   get 'account/:id/participation_groups', to: 'groups#participation_groups', as: 'participation_groups'
 end
+# rubocop:enable Metrics/BlockLength

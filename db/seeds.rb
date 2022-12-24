@@ -18,8 +18,8 @@ User.all.collect do |user|
   visibility = Account::VALID_VISIBILITY.sample
   state = Account::STATES.sample
 
-  account = Account.create user_id: user_id, user_name: user_name, gender: gender, date_birthday: date_birthday,
-                           about_oneself: about_oneself, country: country, visibility: visibility, state: state
+  Account.create user_id: user_id, user_name: user_name, gender: gender, date_birthday: date_birthday,
+                 about_oneself: about_oneself, country: country, visibility: visibility, state: state
 end
 
 Account.all.collect do |account|
@@ -92,7 +92,8 @@ Account.all.collect do |account|
     receiver = invite.receiver_invite
     next unless !(Friendship.find_by(f_partner_friendship: account, s_partner_friendship: receiver) ||
              Friendship.find_by(f_partner_friendship: receiver,
-                                s_partner_friendship: account)) && (Friendship.create f_partner_friendship: account, s_partner_friendship: receiver,
+                                s_partner_friendship: account)) && (Friendship.create f_partner_friendship:
+                                                                    account, s_partner_friendship: receiver,
                                                                                       invite: invite)
 
     invite.update(confirmed: 'yes')

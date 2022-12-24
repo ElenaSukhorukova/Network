@@ -2,11 +2,9 @@
 
 module InvitesHelper
   def find_account_name(invite)
-    account = if invite.sender_invite == current_user.account
-                invite.receiver_invite
-              else
-                invite.sender_invite
-              end
+    return invite.receiver_invite if invite.sender_invite == current_user.account
+
+    invite.sender_invite
   end
 
   def check_invite?(sender_invite, receiver_invite)

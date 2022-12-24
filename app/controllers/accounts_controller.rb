@@ -27,7 +27,8 @@ class AccountsController < ApplicationController
 
   def new
     @account = @user.build_account
-    2.times { @account.hobbies.build }
+
+    @account.account_hobbies.build
   end
 
   def edit; end
@@ -37,11 +38,11 @@ class AccountsController < ApplicationController
     @account.state = Account::STATES[1]
 
     if @account.save
-      redirect_to account_path(@account),
-                  success: I18n.t('flash.new', model: i18n_model_name(@account).downcase)
-    else
-      render :new, status: :unprocessable_entity
+      return redirect_to account_path(@account),
+                         success: I18n.t('flash.new', model: i18n_model_name(@account).downcase)
     end
+
+    render :new, status: :unprocessable_entity
   end
 
   def update
@@ -76,14 +77,14 @@ class AccountsController < ApplicationController
   end
 
   def define_user!
-    @user = User.find_by(id: current_user.id)
+    @user = User.find_by id: current_user.id
   end
 
   def account_params
     params.require(:account).permit(:user_name, :gender, :date_birthday,
                                     :about_oneself, :country,
                                     :visibility, :state,
-                                    hobby_attributes: %i[id hobby_name _destroy])
+                                    account_hobbies_attributes: [hobby_attributes: %i[id hobby_name _destroy]])
   end
 
   def delete_canceled_invites

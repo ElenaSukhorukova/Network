@@ -22,7 +22,7 @@
         <% if check_friendship?(current_user.account, @account) %>
           <p class='text-end'><%= t('page.friendship.exists', user: @account.user_name) %></p>
           <%= render partial: 'friendships/delete_button', 
-              locals: { path: account_friendship_path(@account, find_friendship(current_user.account, @account)) } %>  
+              locals: { path: account_friendships_path(@account, find_friendship(current_user.account, @account)) } %>  
         <% else %>
           <%= render 'accounts/invites/invite' %>
         <% end %>

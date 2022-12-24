@@ -6,9 +6,8 @@
   <% if @conversations.try(:any?) %>
     <div class='row row-cols-2'>
       <section class='col-3'>
+        <div class='scroll conv'>
         <%= render @conversations %>
-        <div class='my-2'>
-          <%== pagination(@pagy) %>
         </div>
       </section>
       <section class='col-9'>
@@ -19,7 +18,7 @@
                 account_path(find_interlocutor(@conversation)) %>
           </h4>
           <% if @messages.try(:any?) %>
-            <div class='scroll'>
+            <div class='scroll message'>
               <%= render partial: 'messages/message', collection: @messages %>
             </div>
           <% end %>

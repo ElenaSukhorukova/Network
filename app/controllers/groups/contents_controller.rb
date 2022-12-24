@@ -3,7 +3,7 @@
 module Groups
   class ContentsController < ApplicationController
     before_action :authenticate_user!
-    before_action :define_content!, except: %i[index new create]
+    before_action :define_content!, except: %i[new create]
     before_action :define_group!, only: %i[new create]
     before_action :define_account!
 

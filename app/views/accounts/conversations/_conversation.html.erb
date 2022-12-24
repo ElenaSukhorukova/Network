@@ -1,3 +1,3 @@
 <% active_class = (@conversation == conversation) ? "btn btn-dark my-2 btn-sm" : "btn btn-outline-dark my-2 btn-sm" %>
 <%= link_to find_interlocutor(conversation).capitalize_name, 
-    account_conversation_path(@account, conversation), class: active_class, role: 'button' %>
+    conversation_path(conversation), class: active_class, role: 'button' %>

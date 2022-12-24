@@ -5,5 +5,7 @@ class Content < ApplicationRecord
   belongs_to :account
 
   has_many :comments, as: :commentable, dependent: :destroy
-  has_many :order_desc, -> { order_desc }, class_name: 'Comment'
+  has_many :order_desc, -> { order_desc }, class_name: 'Comment',
+                                           inverse_of: :comment,
+                                           dependent: :destroy
 end

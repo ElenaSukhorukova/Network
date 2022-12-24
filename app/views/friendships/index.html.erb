@@ -21,14 +21,14 @@
         <p><strong><%= t('page.invite.your_invite.you_are_sender') %></strong></p>
           <%= render @invites_sender %>
           <div class='my-2'>
-            <%== pagination(@pagy_invites_sender) %>
+            <%== pagination(@pagy_sender) %>
           </div>
       <% end %>
       <% if @invites_receiver.try(:any?) %>
         <p><strong><%= t('page.invite.users_invite.sender') %></strong></p>
         <%= render @invites_receiver %>
         <div class='my-2'>
-          <%== pagination(@pagy_invites_receiver) %>
+          <%== pagination(@pagy_receiver) %>
         </div>      
       <% end %>
     </div>

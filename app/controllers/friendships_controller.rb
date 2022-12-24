@@ -12,10 +12,10 @@ class FriendshipsController < ApplicationController
   def index
     @pagy_friend, @friends = pagy Friendship.user_friends(@sender), items: 10, page_param: :pagy_friend
 
-    @pagy_invites_sender, @invites_sender = pagy Invite.account_sender_invites(@sender), items: 7,
-                                                                                         page_param: :pagy_invites_sender
-    @pagy_invites_receiver, @invites_receiver = pagy Invite.account_receiver_invites(@sender), items: 7,
-                                                                                               page_param: :pagy_invites_receiver
+    @pagy_sender, @invites_sender = pagy Invite.account_sender_invites(@sender), items: 7,
+                                                                                 page_param: :pagy_sender
+    @pagy_receiver, @invites_receiver = pagy Invite.account_receiver_invites(@sender), items: 7,
+                                                                                       page_param: :pagy_receiver
   end
 
   def create
@@ -48,8 +48,7 @@ class FriendshipsController < ApplicationController
 
   def define_account!
     @sender = Account.find_by user_id: current_user.id
-    @pagy_account, @accounts = pagy Account.except_current_account(@sender).order(user_name: :asc), items: 20,
-                                                                                                    page_param: :pagy_account
+    @pagy_account, @accounts = pagy Account.except_current_account(@sender), items: 20, page_param: :pagy_account
     @accounts = @accounts.decorate
   end
 

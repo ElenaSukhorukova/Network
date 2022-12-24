@@ -10,16 +10,12 @@ class CommentsController < ApplicationController
   def edit; end
 
   def create
-    @comment = @commentable.comments.build comment_params
-    @comment.author_comment = @account
+    build_comment
+    path = commentable_path(@comment)
 
-    if @comment.save
-      redirect_to commentable_path(@comment),
-                  success: I18n.t('flash.new', model: i18n_model_name(@comment).downcase)
-    else
-      redirect_to commentable_path(@comment),
-                  danger: @comment.errors.full_messages.each(&:capitalize).join(' ').to_s
-    end
+    return redirect_to path, success: I18n.t('flash.new', model: i18n_model_name(@comment).downcase) if @comment.save
+
+    redirect_to path, danger: @comment.errors.full_messages.each(&:capitalize).join(' ').to_s
   end
 
   def update
@@ -60,6 +56,11 @@ class CommentsController < ApplicationController
     return content_path(comment.commentable, anchor: dom_id(comment)) if comment.commentable_type == 'Content'
   end
   helper_method :commentable_path
+
+  def build_comment
+    @comment = @commentable.comments.build comment_params
+    @comment.author_comment = @account
+  end
 
   def comment_params
     params.require(:comment).permit(:body)

@@ -4,7 +4,7 @@ class Invite < ApplicationRecord
   VALID_CONFIRMED = %w[not yes canceled].freeze
   validates :confirmed, inclusion: { in: VALID_CONFIRMED }
 
-  has_one :friendship
+  has_one :friendship, dependent: :destroy
 
   belongs_to :sender_invite, class_name: 'Account', optional: true
   belongs_to :receiver_invite, class_name: 'Account', optional: true

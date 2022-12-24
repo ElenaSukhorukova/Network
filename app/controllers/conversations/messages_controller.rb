@@ -1,75 +1,76 @@
 # frozen_string_literal: true
 
-module Conversations
-  class MessagesController < ApplicationController
-    before_action :authenticate_user!
-    before_action :define_interlocutors!, only: %i[create]
-    before_action :define_message!, only: %i[edit update destroy]
-    include ConversationsHelper
+class Conversations::MessagesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :define_interlocutors!, only: %i[create]
+  before_action :define_message!, only: %i[edit update destroy]
+  include ConversationsHelper
 
-    def edit; end
+  def edit; end
 
-    def create
-      @message = @conversation.messages.build message_params
+  def create
+    build_message
+    path = conversation_path(@conversation)
 
-      @message.sender_message = @sender
-      @message.recipient_message = @recipient
+    return redirect_to path, success: I18n.t('flash.send', model: i18n_model_name(@message).downcase) if @message.save
 
-      if @message.save
-        redirect_to account_conversation_path(current_user.account, @conversation),
-                    success: I18n.t('flash.send', model: i18n_model_name(@message).downcase)
-      else
-        redirect_to account_conversation_path(current_user.account, @conversation),
-                    danger: @message.errors.full_messages.each(&:capitalize).join(' ').to_s
-      end
+    edirect_to path, danger: @message.errors.full_messages.each(&:capitalize).join(' ').to_s
+  end
+
+  def update
+    return unless @account.id == @message.sender_message_id
+
+    path = conversation_path(@message.conversation)
+    if @message.update message_params
+      return redirect_to path,
+                         success: I18n.t('flash.update',
+                                         model: i18n_model_name(@message).downcase)
     end
 
-    def update
-      @message = Message.find params[:id]
+    redirect_to path, danger: @message.errors.full_messages.each(&:capitalize).join(' ').to_s
+  end
 
-      return unless current_user.account.id == @message.sender_message_id
+  def destroy
+    @conversation = @message.conversation
 
-      if @message.update message_params
-        redirect_to account_conversation_path(current_user.account, @message.conversation),
-                    success: I18n.t('flash.update', model: i18n_model_name(@message).downcase)
-      else
-        redirect_to account_conversation_path(current_user.account, @message.conversation),
-                    danger: @message.errors.full_messages.each(&:capitalize).join(' ').to_s
-      end
-    end
+    return unless @account.id == @message.sender_message_id && @message.destroy
 
-    def destroy
-      @message = Message.find params[:id]
-      @conversation = @message.conversation
+    # delete conversation if it hasn't messages
+    destroy_conversation
 
-      return unless current_user.account.id == @message.sender_message_id
-      return unless @message.destroy
+    redirect_to conversation_path(@message.conversation),
+                success: I18n.t('flash.destroy', model: i18n_model_name(@message).downcase)
+  end
 
-      # delete conversation if it hasn't messages
-      if @conversation.messages.empty?
-        @conversation.destroy
-        redirect_to account_conversations_path(current_user.account),
-                    success: I18n.t('flash.destroy', model: i18n_model_name(@conversation).downcase)
-      else
-        redirect_to account_conversation_path(current_user.account, @message.conversation),
-                    success: I18n.t('flash.destroy', model: i18n_model_name(@message).downcase)
-      end
-    end
+  private
 
-    private
+  def define_interlocutors!
+    @conversation = Conversation.find params[:conversation_id]
+    @sender = current_user.account
+    @recipient = find_interlocutor @conversation
+  end
 
-    def define_interlocutors!
-      @conversation = Conversation.find params[:conversation_id]
-      @sender = current_user.account
-      @recipient = find_interlocutor @conversation
-    end
+  def define_message!
+    @message = Message.find params[:id]
+    @account = current_user.account
+  end
 
-    def define_message!
-      @message = Message.find params[:id]
-    end
+  def build_message
+    @message = @conversation.messages.build message_params
 
-    def message_params
-      params.require(:message).permit(:body, :read)
-    end
+    @message.sender_message = @sender
+    @message.recipient_message = @recipient
+  end
+
+  def destroy_conversation
+    return unless @conversation.messages.empty?
+
+    @conversation.destroy
+    redirect_to account_conversations_path(@account),
+                success: I18n.t('flash.destroy', model: i18n_model_name(@conversation).downcase)
+  end
+
+  def message_params
+    params.require(:message).permit(:body, :read)
   end
 end

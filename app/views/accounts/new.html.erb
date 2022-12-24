@@ -6,5 +6,5 @@
   
   <%= render partial: 'shared/go_back_button', locals: { path: root_path } %>
   <p><%= t('page.account.empty_profile') %></p>
-  <%= render partial: 'form',  locals: { model: [@user, @account], method: :post } %>
+  <%= render partial: 'form',  locals: { model: @account, method: :post } %>
 </article>

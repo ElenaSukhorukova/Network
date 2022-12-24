@@ -4,6 +4,7 @@ module Groups
   class HobbiesController < ApplicationController
     before_action :authenticate_user!
     before_action :define_group!
+    include HobbyAdd
 
     def new
       @hobby = Hobby.new
@@ -12,13 +13,13 @@ module Groups
     def create
       @hobby = Hobby.new_hobby hobby_params
       if @hobby.save
-        @group.hobbies << @hobby unless @group.hobbies.find_by(hobby_name: @hobby.hobby_name)
-        redirect_to group_path(@group),
-                    success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
-      else
-        redirect_to group_path(@group),
-                    danger: @hobby.errors.full_messages.each(&:capitalize).join(' ').to_s
+        hobby_add(@group, @hobby)
+        return redirect_to group_path(@group),
+                           success: I18n.t('flash.new', model: i18n_model_name(@hobby).downcase)
       end
+
+      redirect_to group_path(@group),
+                  danger: @hobby.errors.full_messages.each(&:capitalize).join(' ').to_s
     end
 
     private

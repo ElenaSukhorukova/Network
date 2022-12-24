@@ -1,41 +1,44 @@
 # frozen_string_literal: true
 
-module Accounts
-  class MessagesController < ApplicationController
-    before_action :authenticate_user!
-    before_action :define_interlocutors!
+class Accounts::MessagesController < ApplicationController
+  before_action :authenticate_user!
+  before_action :define_interlocutors!
 
-    def new
-      @message = Message.new
-    end
+  def new
+    @message = Message.new
+  end
 
-    def create
-      @conversation = Conversation.new_conv @sender, @recipient
-      @conversation.save if @conversation.new_record?
-      @message = @conversation.messages.build message_params
+  def create
+    build_message
+    path = account_path(@recipient)
 
-      @message.sender_message = @sender
-      @message.recipient_message = @recipient
+    return redirect_to path, success: I18n.t('flash.send', model: i18n_model_name(@message).downcase) if @message.save
 
-      if @message.save
-        redirect_to account_path(@recipient),
-                    success: I18n.t('flash.send', model: i18n_model_name(@message).downcase)
-      else
-        @conversation.destroy
-        redirect_to account_path(@recipient),
-                    danger: @message.errors.full_messages.each(&:capitalize).join(' ').to_s
-      end
-    end
+    @conversation.destroy
+    redirect_to path, danger: @message.errors.full_messages.each(&:capitalize).join(' ').to_s
+  end
 
-    private
+  private
 
-    def define_interlocutors!
-      @sender = current_user.account
-      @recipient = Account.find params[:account_id]
-    end
+  def create_conversation
+    @conversation = Conversation.new_conv @sender, @recipient
+    @conversation.save if @conversation.new_record?
+  end
 
-    def message_params
-      params.require(:message).permit(:body, :read)
-    end
+  def define_interlocutors!
+    @sender = current_user.account
+    @recipient = Account.find params[:account_id]
+  end
+
+  def build_message
+    create_conversation
+    @message = @conversation.messages.build message_params
+
+    @message.sender_message = @sender
+    @message.recipient_message = @recipient
+  end
+
+  def message_params
+    params.require(:message).permit(:body, :read)
   end
 end

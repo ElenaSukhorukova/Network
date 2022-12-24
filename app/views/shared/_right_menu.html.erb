@@ -5,7 +5,7 @@
     <ul class="sb_menu">
       <li>
         <%= nav_tab_right t('link.add_new', model: i18n_model_name(Account.new, count: 1).downcase), 
-            new_user_account_path(current_user), current_page: current_page if current_user && !current_user.account.present? %>
+            new_account_path, current_page: current_page if current_user && !current_user.account.present? %>
       </li>
       <% if user_signed_in? && current_user.account.try(:present?) %> 
         <li>
@@ -20,12 +20,12 @@
           <%= nav_tab_right i18n_model_name(Conversation.new, count: 2), 
               account_conversations_path(current_user.account), current_page: current_page %>
         </li>
+      <li>
+        <%= nav_tab_right i18n_model_name(Group.new, count: 2), account_groups_path(current_user.account), current_page: current_page %>
+      </li>
       <% end %>
       <li>
         <%= nav_tab_right i18n_model_name(Post.new, count: 2), posts_path, current_page: current_page %>
-      </li>
-      <li>
-        <%= nav_tab_right i18n_model_name(Group.new, count: 2), account_groups_path(current_user.account), current_page: current_page %>
       </li>
     </ul>
   </nav>

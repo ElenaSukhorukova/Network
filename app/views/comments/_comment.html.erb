@@ -13,7 +13,7 @@
     <div class="btn-group my-4" role="group">
       <%= link_to t('submit.simple_edit'), edit_comment_path(comment), 
           class: "btn btn-outline-dark me-2 btn-sm" if comment.author_comment == @account %>
-      <% if comment.author_comment == @account || @comment.commentable.group_creator == @account %>
+      <% if [comment.commentable.try(:group_creator), comment.author_comment].include?(@account) %>
         <%= button_to t('submit.simple_delete'), comment_path(comment), method: :delete, 
           class: "btn btn-outline-dark btn-sm", :onclick => "return confirm('Are you sure?')", 
           :remote => true %>
@@ -21,4 +21,3 @@
     </div>
   <% end %>
 </div>
-          

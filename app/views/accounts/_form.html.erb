@@ -1,4 +1,4 @@
-<%= simple_form_for model, method: method do |f| %>
+<%= form_with model: model, method: method, builder: DynamicFormBuilder  do |f| %>
   <%#= f.file_field :avatar, class:"form-control", id: "formFile", input_html: { class: 'my-3'} %>
 	<%= f.input :user_name, input_html: { class: 'mb-2' } %>
 	<%= f.input :gender, as: :radio_buttons, 
@@ -6,7 +6,7 @@
 													item_wrapper_class: 'inline',
 													input_html: { class: 'mx-2 mb-2' } %>
 	<%= f.input :date_birthday, as: :date, start_year: Date.today.year - 120,
-																end_year: Date.today.year - 12,
+																end_year: Date.today.year - 18,
 																input_html: { class: 'mb-2' } %>
 	<%= f.input :country, as: :select, collection: Account::VALID_COUNTRY,
 																input_html: { class: 'mb-2' } %>
@@ -16,12 +16,8 @@
 															item_wrapper_class: 'inline',
 															input_html: { class: 'mx-2 mb-2' } %>
 
-	<h4 class='mt-4 mb-2'><%= i18n_model_name(Hobby.new, count: 2) %></h4>
-		<%= f.simple_fields_for :hobbies, include_id: false do |hobby_form| %>
-			<%= hobby_form.input :hobby_name, input_html: { class: 'mb-2' } %>
-		<% end %>
 	<%= f.button :submit, f.object.new_record? ? t('submit.create', model: i18n_model_name(f.object).downcase) 
                                               : t('submit.edit', model: i18n_model_name(f.object).downcase), 
-                                              class: "btn btn-outline-dark my-2 btn-sm" %>	
+                                              class: "btn btn-outline-dark my-2 btn-sm" %>
 	<%= render partial: 'shared/cancel_button', locals: { path: account_path(f.object) } if f.object.persisted? %>
 <% end %>		

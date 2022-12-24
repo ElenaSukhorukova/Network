@@ -8,7 +8,7 @@
     <i class="bi bi-trash3-fill"></i>
 <% end %>
 <%= turbo_frame_tag dom_id(@hobby) do %>
-  <%= link_to(new_account_hobby_path(@account), class: "btn btn-outline-dark btn-sm mt-1 profile", 
+  <%= link_to(new_account_hobby_path, class: "btn btn-outline-dark btn-sm mt-1 profile", 
       title:  t('link.add_new', model: i18n_model_name(@hobby).downcase), ) do %>
       <i class="bi bi-scooter"></i>
   <% end %>
