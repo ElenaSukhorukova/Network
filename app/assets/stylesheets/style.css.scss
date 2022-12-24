@@ -606,11 +606,17 @@ ol li .send {
 }
 
 .scroll {
-		overflow-y: scroll;
-		height: 300px;
-		width: 100%;
-		margin: 10px 5px; padding: 5px;
-		text-align: justify;
+	overflow-y: scroll;
+	width: 100%;
+	margin: 10px 5px; padding: 5px;
+	text-align: justify;
+}
+.scroll.conv {
+		height: 600px;
+}
+
+.scroll.message {
+	height: 400px;
 }
 .scroll::-webkit-scrollbar {
 		width:5px;
