@@ -64,6 +64,9 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   # gem for ENV
   gem 'faker', '~> 3'
+  gem 'rubocop', '~> 1.40', require: false
+  gem 'rubocop-performance', '~> 1.15', require: false
+  gem 'rubocop-rails', '~> 2.17', require: false
 end
 
 group :development do
@@ -75,19 +78,17 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'figaro'
   gem 'bullet', '~> 7.0.7'
-  gem 'rubocop', '~> 1.40', require: false
-  gem 'rubocop-performance', '~> 1.15', require: false
-  gem 'rubocop-rails', '~> 2.17', require: false
+  gem 'figaro'
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
+  gem 'factory_bot_rails', '~> 6.2.0'
   gem 'rspec-rails', '~> 6.0.1'
-  gem 'shoulda-matchers'
-  gem "factory_bot_rails", '~> 6.2.0'
+  gem 'rubocop-rspec', '~> 2.16.0', require: false
+  gem 'selenium-webdriver'
+  gem 'shoulda-matchers', '~> 5.3.0'
+  gem 'webdrivers'
 end
