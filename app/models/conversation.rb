@@ -7,7 +7,7 @@ class Conversation < ApplicationRecord
   belongs_to :s_partner_conversation, class_name: 'Account', optional: true
 
   # chose a current account conversations
-  scope :account_conversations, -> (account) {
+  scope :account_conversations, lambda { |account|
     where(f_partner_conversation: account).or(Conversation.where(s_partner_conversation: account))
   }
 
