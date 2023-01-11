@@ -81,6 +81,7 @@ class GroupsController < ApplicationController
 
   def group_params
     params.require(:group).permit(:name_group, :description, :visibility,
-                                  hobbies_attributes: %i[id hobby_name _destroy])
+                                  hobbies_attributes: %i[id hobby_name _destroy], 
+                                  :group_image)
   end
 end

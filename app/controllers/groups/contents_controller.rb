@@ -63,7 +63,7 @@ module Groups
     end
 
     def content_params
-      params.require(:content).permit(:body)
+      params.require(:content).permit(:body, images: [])
     end
   end
 end

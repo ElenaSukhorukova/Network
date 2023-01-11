@@ -84,7 +84,8 @@ class AccountsController < ApplicationController
     params.require(:account).permit(:user_name, :gender, :date_birthday,
                                     :about_oneself, :country,
                                     :visibility, :state,
-                                    account_hobbies_attributes: [hobby_attributes: %i[id hobby_name _destroy]])
+                                    account_hobbies_attributes: [hobby_attributes: %i[id hobby_name _destroy]], 
+                                    :avatar)
   end
 
   def delete_canceled_invites

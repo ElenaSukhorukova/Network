@@ -72,7 +72,7 @@ module Conversations
     end
 
     def message_params
-      params.require(:message).permit(:body, :read)
+      params.require(:message).permit(:body, :read, images: [])
     end
   end
 end
