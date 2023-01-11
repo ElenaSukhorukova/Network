@@ -19,4 +19,5 @@ class Group < ApplicationRecord
   has_many :group_contents, dependent: :destroy
 
   has_many :contents, dependent: :destroy
+  has_one_attached :group_image
 end

@@ -73,4 +73,5 @@ class Account < ApplicationRecord
   has_many :s_partner_friendships, class_name: 'Friendship',
                                    foreign_key: :s_partner_friendship_id,
                                    inverse_of: :s_partner_friendship, dependent: :destroy
+  has_one_attached :avatar
 end
