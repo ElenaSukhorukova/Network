@@ -16,8 +16,7 @@ class Group < ApplicationRecord
   accepts_nested_attributes_for :hobbies, allow_destroy: true, update_only: true
 
   belongs_to :group_creator, class_name: 'Account', optional: true
-  has_many :group_contents, dependent: :destroy
-
   has_many :contents, dependent: :destroy
+
   has_one_attached :group_image
 end
