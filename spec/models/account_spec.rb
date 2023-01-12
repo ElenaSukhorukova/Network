@@ -5,28 +5,28 @@ require 'rails_helper'
 RSpec.describe Account do
   let(:account) { create(:account) }
 
-  it 'returns article\'s name' do
+  it 'returns account\'s name' do
     expect(account.user_name).to eq('Walter White')
   end
 
-  it 'returns article\'s title' do
+  it 'returns account\'s gender' do
     expect(account.gender).to be_an_instance_of(String)
   end
 
   describe 'validation' do
     it 'returns true for the user\'s name' do
       expect(account.user_name.present?).to be true
-    end \
+    end
 
-    it 'returns true for the user\'s name' do
+    it 'returns true for the user\'s country' do
       expect(account.country.present?).to be true
     end
 
-    it 'returns true for the user\'s name' do
+    it 'returns true for the user\'s date_birthday' do
       expect(account.date_birthday.present?).to be true
     end
 
-    it 'returns true for the user\'s name' do
+    it 'returns true for the user\'s gender' do
       expect(account.gender.present?).to be true
     end
 
@@ -48,7 +48,7 @@ RSpec.describe Account do
       expect(Account::STATES).to include(account.state)
     end
 
-    it 'returns true for the state' do
+    it 'returns true for the visibility' do
       expect(Account::VALID_VISIBILITY).to include(account.visibility)
     end
 
@@ -64,12 +64,19 @@ RSpec.describe Account do
 
     it { is_expected.to have_many(:sender_messages).class_name('Message') }
     it { is_expected.to have_many(:recipient_messages).class_name('Message') }
-    it { is_expected.to have_many(:f_partner_conversations).class_name('Conversation')
-                                                           .through(:sender_messages)
-                                                           .source(:sender_message) }
-    it { is_expected.to have_many(:s_partner_conversations).class_name('Conversation')
+
+    it {
+      expect(subject).to have_many(:f_partner_conversations).class_name('Conversation')
+                                                            .through(:sender_messages)
+                                                            .source(:sender_message)
+    }
+
+    it {
+      expect(subject).to have_many(:s_partner_conversations).class_name('Conversation')
                                                             .through(:recipient_messages)
-                                                            .source(:recipient_message) }
+                                                            .source(:recipient_message)
+    }
+
     it { is_expected.to have_many :hobbies }
     it { is_expected.to have_many(:group_creator).class_name('Group') }
     it { is_expected.to have_many(:author_comment).class_name('Comment') }
@@ -79,5 +86,6 @@ RSpec.describe Account do
     it { is_expected.to have_many(:receiver_invites).class_name('Invite') }
     it { is_expected.to have_many(:f_partner_friendships).class_name('Friendship') }
     it { is_expected.to have_many(:s_partner_friendships).class_name('Friendship') }
+    it { is_expected.to have_one_attached(:avatar) }
   end
 end
