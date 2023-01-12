@@ -47,14 +47,14 @@ class Account < ApplicationRecord
 
   has_many :group_participants, dependent: :destroy
   has_many :group_creator, class_name: 'Group', foreign_key: :group_creator_id,
-                          inverse_of: :group_creator, dependent: :destroy
+                           inverse_of: :group_creator, dependent: :destroy
 
   has_many :author_comment, class_name: 'Comment',
-                           foreign_key: :author_comment_id,
-                           inverse_of: :author_comment, dependent: :destroy
+                            foreign_key: :author_comment_id,
+                            inverse_of: :author_comment, dependent: :destroy
 
   has_many :author_posts, class_name: 'Post', foreign_key: :author_post_id,
-                   inverse_of: :author_post, dependent: :destroy
+                          inverse_of: :author_post, dependent: :destroy
 
   has_many :contents, dependent: :destroy
 

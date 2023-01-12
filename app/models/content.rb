@@ -3,7 +3,7 @@
 class Content < ApplicationRecord
   validates :body, presence: true, length: { minimum: 2 }
   has_many_attached :images
-  
+
   belongs_to :group
   belongs_to :account
 
